@@ -1,3 +1,31 @@
+Version 0.9.5.0.pre4:
+(2011-05-01)
+
+    [Issue 617] Fixed Superfluous RangeServer::create_scanner() request when scanning over exact range
+    Removed benchmark tasks from Capfiles, added Capfile.benchmark
+    Added support for ScanSpec in Hadoop streaming mapred
+    Added hostname to AsyncComm proxy map
+    issue 528: Allow embedded semicolons in HQL string constants
+    Added optional support for jemalloc
+    Fixed bug in scanner which causes assert when a scanner hits row limit and receives results from a cancelled scanner
+    Missed checkin of auto-generated java code
+    Fixed CellStore GC regression; Added test
+    API Change: Made Table objects auto-refresh schema by default
+    Added more info to RS_METRICS (including disk_bytes_read)
+    Support for optionally including master location hash into RangeServer proxies
+    Added support for IP addresses to be used as Hyperspace.Replication.Host strings.
+    Added is_ipv4() method to InetAddr to test if a string is an ip addr in the n.n.n.n format.
+    Fixed MergeScanner bug which failed to use MAX_VERSIONS filter correctly when value regex was used.
+    Added '\0' escaping/unescaping to SELECT, DUMP TABLE, LOAD DATA INFILE
+    Removed trailing slash on exclude hyperspace in Capfile rsync commands
+    Added Hyperspace.Client.Datagram.SendPort property (default=0)
+    Fixed bug in scanner timeout logic. Timers were not being reset correctly in between calls.
+    Removing dependency on BerkeleyDb libraries in Hyperspace client library.
+    Fixed Capfile install/upgrade tasks to work with standalone installs
+    Fix for rounding error in LOAD DATA INFILE timestamp parsing
+    Fix for KEYS_ONLY scan
+    Fixed bug in MergeScanner logic.
+
 Version 0.9.5.0.pre3:
 (2011-04-12)
 

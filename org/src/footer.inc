@@ -12,7 +12,7 @@
 			<a href="sitemap.html">Sitemap</a>
 		</p>
 		<!-- . nav -->
-		<p class="copy">&copy; 2009 Hypertable. All rights reserved. Design by <a href="http://www.bluecoastweb.com" target="_blank">Blue Coast Web</a></p>
+		<p class="copy">&copy; 2011 Hypertable. All rights reserved. Design by <a href="http://www.bluecoastweb.com" target="_blank">Blue Coast Web</a></p>
 		<ul>
 			<li class="first"><span>Sponsors:</span></li>
 			<li><a href="sponsors.html#zvents"><img src="images/lgo-zvents.gif" alt="Zvents" /></a></li>
