@@ -111,6 +111,11 @@ color: #e1e0d1;
 color: #fff;
 }
 
+li a.downloads {
+	border-left: 1px solid #4C4C4C;
+	padding: 0 0 0 20px;
+}
+
 #headband{
 height: 150px;
 position: relative;
@@ -292,11 +297,16 @@ margin-top: -70px;
 #whychoose ul.top{background: transparent url(../images/gra-database.jpg) no-repeat top right}
 #whychoose ul.bottom{background: transparent url(../images/gra-services.jpg) no-repeat top right}
 
-#whychoose ul li{
+#whychoose ul li,
+ul.bullets li{
 padding-left: 13px;
 line-height: 22px;
 margin-bottom: 22px;
 background: transparent url(../images/bul-arw.gif) no-repeat 0 7px;
+}
+
+.indent {
+	margin: 0 160px 30px 40px;
 }
 
 #whouses{
