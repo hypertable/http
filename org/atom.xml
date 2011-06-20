@@ -14,10 +14,19 @@ Warning: date(): It is not safe to rely on the system's timezone settings. You a
 <feed xmlns="http://www.w3.org/2005/Atom">
 <updated>
 Warning: date(): It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'America/Los_Angeles' for 'PDT/-7.0/DST' instead in /Users/doug/src/html/org/src/atom.phx on line 33
-2011-06-03T16:05:53-07:00</updated>
+2011-06-17T13:38:11-07:00</updated>
 <id>http://hypertable.org/atom.xml</id>
 <title>Hypertable News &amp; Announcements</title>
 <link rel="self" type="application/atom+xml;type=feed" href="/atom.xml"/>
+<entry>
+<updated>2011-06-17T00:00:00-07:00</updated>
+<id>http://hypertable.org/feed/n1308294000</id>
+<link rel="alternate" type="text/html" href="/index.html"/>
+<title type="html">June 17 2011</title>
+<author>hypertable.org</author>
+<category term="news" scheme="http://hypertable.org/feed/type"/>
+<content type="html">Hypertable, Inc. is hiring &lt;a href=&quot;http://www.hypertable.com/careers/&quot;&gt;Core Hypertable Engineers »&lt;/a&gt; Positions available in Silicon Valley and Europe</content>
+</entry>
 <entry>
 <updated>2011-06-03T00:00:00-07:00</updated>
 <id>http://hypertable.org/feed/r1307084400</id>
@@ -34,15 +43,6 @@ Warning: date(): It is not safe to rely on the system's timezone settings. You a
 <title type="html">May 18 2011</title>
 <author>hypertable.org</author>
 <category term="news" scheme="http://hypertable.org/feed/type"/>
-<content type="html">2011 NoSQL Now! has select Hypertable for the Conference Program&lt;br&gt;August 23 - 25, &lt;a href=&quot;&quot;&gt;2011 NoSQL Now! »&lt;/a&gt; San Jose, CA</content>
-</entry>
-<entry>
-<updated>2010-10-17T00:00:00-07:00</updated>
-<id>http://hypertable.org/feed/n1287298800</id>
-<link rel="alternate" type="text/html" href="/index.html"/>
-<title type="html">Oct 17 2010</title>
-<author>hypertable.org</author>
-<category term="news" scheme="http://hypertable.org/feed/type"/>
-<content type="html">Doug Judd will present &lt;a href=&quot;http://www.meetup.com/cloudcomputing/calendar/14362435/&quot;&gt;Database Architectures and Hypertable&lt;/a&gt; at the Silicon Valley Cloud Computing Group Meetup, October 21st 2010&lt;br&gt; Fenwick &amp; West, Mountain View, CA</content>
+<content type="html">2011 NoSQL Now! has select Hypertable for the Conference Program&lt;br&gt;August 23 - 25, &lt;a href=&quot;http://nosql2011.wilshireconferences.com/&quot;&gt;2011 NoSQL Now! »&lt;/a&gt; San Jose, CA</content>
 </entry>
 </feed>
