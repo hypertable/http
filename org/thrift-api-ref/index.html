@@ -19,9 +19,11 @@
 </tr><tr>
 <td>Client</td><td><a href="Client.html#Svc_ClientService">ClientService</a><br/>
 <ul>
+<li><a href="Client.html#Fn_ClientService_alter_table">alter_table</a></li>
 <li><a href="Client.html#Fn_ClientService_cancel_future">cancel_future</a></li>
 <li><a href="Client.html#Fn_ClientService_close_future">close_future</a></li>
 <li><a href="Client.html#Fn_ClientService_close_mutator">close_mutator</a></li>
+<li><a href="Client.html#Fn_ClientService_close_mutator_async">close_mutator_async</a></li>
 <li><a href="Client.html#Fn_ClientService_close_namespace">close_namespace</a></li>
 <li><a href="Client.html#Fn_ClientService_close_scanner">close_scanner</a></li>
 <li><a href="Client.html#Fn_ClientService_close_scanner_async">close_scanner_async</a></li>
@@ -32,6 +34,11 @@
 <li><a href="Client.html#Fn_ClientService_exists_namespace">exists_namespace</a></li>
 <li><a href="Client.html#Fn_ClientService_exists_table">exists_table</a></li>
 <li><a href="Client.html#Fn_ClientService_flush_mutator">flush_mutator</a></li>
+<li><a href="Client.html#Fn_ClientService_flush_mutator_async">flush_mutator_async</a></li>
+<li><a href="Client.html#Fn_ClientService_future_has_outstanding">future_has_outstanding</a></li>
+<li><a href="Client.html#Fn_ClientService_future_is_cancelled">future_is_cancelled</a></li>
+<li><a href="Client.html#Fn_ClientService_future_is_empty">future_is_empty</a></li>
+<li><a href="Client.html#Fn_ClientService_future_is_full">future_is_full</a></li>
 <li><a href="Client.html#Fn_ClientService_get_cell">get_cell</a></li>
 <li><a href="Client.html#Fn_ClientService_get_cells">get_cells</a></li>
 <li><a href="Client.html#Fn_ClientService_get_cells_as_arrays">get_cells_as_arrays</a></li>
@@ -45,6 +52,7 @@
 <li><a href="Client.html#Fn_ClientService_get_row_serialized">get_row_serialized</a></li>
 <li><a href="Client.html#Fn_ClientService_get_schema">get_schema</a></li>
 <li><a href="Client.html#Fn_ClientService_get_schema_str">get_schema_str</a></li>
+<li><a href="Client.html#Fn_ClientService_get_schema_str_with_ids">get_schema_str_with_ids</a></li>
 <li><a href="Client.html#Fn_ClientService_get_table_id">get_table_id</a></li>
 <li><a href="Client.html#Fn_ClientService_get_table_splits">get_table_splits</a></li>
 <li><a href="Client.html#Fn_ClientService_get_tables">get_tables</a></li>
@@ -60,6 +68,7 @@
 <li><a href="Client.html#Fn_ClientService_offer_cells_as_arrays">offer_cells_as_arrays</a></li>
 <li><a href="Client.html#Fn_ClientService_open_future">open_future</a></li>
 <li><a href="Client.html#Fn_ClientService_open_mutator">open_mutator</a></li>
+<li><a href="Client.html#Fn_ClientService_open_mutator_async">open_mutator_async</a></li>
 <li><a href="Client.html#Fn_ClientService_open_namespace">open_namespace</a></li>
 <li><a href="Client.html#Fn_ClientService_open_scanner">open_scanner</a></li>
 <li><a href="Client.html#Fn_ClientService_open_scanner_async">open_scanner_async</a></li>
@@ -67,9 +76,14 @@
 <li><a href="Client.html#Fn_ClientService_rename_table">rename_table</a></li>
 <li><a href="Client.html#Fn_ClientService_set_cell">set_cell</a></li>
 <li><a href="Client.html#Fn_ClientService_set_cell_as_array">set_cell_as_array</a></li>
+<li><a href="Client.html#Fn_ClientService_set_cell_as_array_async">set_cell_as_array_async</a></li>
+<li><a href="Client.html#Fn_ClientService_set_cell_async">set_cell_async</a></li>
 <li><a href="Client.html#Fn_ClientService_set_cells">set_cells</a></li>
 <li><a href="Client.html#Fn_ClientService_set_cells_as_arrays">set_cells_as_arrays</a></li>
+<li><a href="Client.html#Fn_ClientService_set_cells_as_arrays_async">set_cells_as_arrays_async</a></li>
+<li><a href="Client.html#Fn_ClientService_set_cells_async">set_cells_async</a></li>
 <li><a href="Client.html#Fn_ClientService_set_cells_serialized">set_cells_serialized</a></li>
+<li><a href="Client.html#Fn_ClientService_set_cells_serialized_async">set_cells_serialized_async</a></li>
 </ul>
 </td>
 <td><a href="Client.html#Struct_AccessGroup">AccessGroup</a><br/>
@@ -84,6 +98,7 @@
 <a href="Client.html#Enum_KeyFlag">KeyFlag</a><br/>
 <a href="Client.html#Struct_MutateSpec">MutateSpec</a><br/>
 <a href="Client.html#Typedef_Mutator">Mutator</a><br/>
+<a href="Client.html#Typedef_MutatorAsync">MutatorAsync</a><br/>
 <a href="Client.html#Enum_MutatorFlag">MutatorFlag</a><br/>
 <a href="Client.html#Typedef_Namespace">Namespace</a><br/>
 <a href="Client.html#Struct_NamespaceListing">NamespaceListing</a><br/>

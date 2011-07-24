@@ -10,9 +10,11 @@
 <tr>
 <td>Client</td><td><a href="Client.html#Svc_ClientService">ClientService</a><br/>
 <ul>
+<li><a href="Client.html#Fn_ClientService_alter_table">alter_table</a></li>
 <li><a href="Client.html#Fn_ClientService_cancel_future">cancel_future</a></li>
 <li><a href="Client.html#Fn_ClientService_close_future">close_future</a></li>
 <li><a href="Client.html#Fn_ClientService_close_mutator">close_mutator</a></li>
+<li><a href="Client.html#Fn_ClientService_close_mutator_async">close_mutator_async</a></li>
 <li><a href="Client.html#Fn_ClientService_close_namespace">close_namespace</a></li>
 <li><a href="Client.html#Fn_ClientService_close_scanner">close_scanner</a></li>
 <li><a href="Client.html#Fn_ClientService_close_scanner_async">close_scanner_async</a></li>
@@ -23,6 +25,11 @@
 <li><a href="Client.html#Fn_ClientService_exists_namespace">exists_namespace</a></li>
 <li><a href="Client.html#Fn_ClientService_exists_table">exists_table</a></li>
 <li><a href="Client.html#Fn_ClientService_flush_mutator">flush_mutator</a></li>
+<li><a href="Client.html#Fn_ClientService_flush_mutator_async">flush_mutator_async</a></li>
+<li><a href="Client.html#Fn_ClientService_future_has_outstanding">future_has_outstanding</a></li>
+<li><a href="Client.html#Fn_ClientService_future_is_cancelled">future_is_cancelled</a></li>
+<li><a href="Client.html#Fn_ClientService_future_is_empty">future_is_empty</a></li>
+<li><a href="Client.html#Fn_ClientService_future_is_full">future_is_full</a></li>
 <li><a href="Client.html#Fn_ClientService_get_cell">get_cell</a></li>
 <li><a href="Client.html#Fn_ClientService_get_cells">get_cells</a></li>
 <li><a href="Client.html#Fn_ClientService_get_cells_as_arrays">get_cells_as_arrays</a></li>
@@ -36,6 +43,7 @@
 <li><a href="Client.html#Fn_ClientService_get_row_serialized">get_row_serialized</a></li>
 <li><a href="Client.html#Fn_ClientService_get_schema">get_schema</a></li>
 <li><a href="Client.html#Fn_ClientService_get_schema_str">get_schema_str</a></li>
+<li><a href="Client.html#Fn_ClientService_get_schema_str_with_ids">get_schema_str_with_ids</a></li>
 <li><a href="Client.html#Fn_ClientService_get_table_id">get_table_id</a></li>
 <li><a href="Client.html#Fn_ClientService_get_table_splits">get_table_splits</a></li>
 <li><a href="Client.html#Fn_ClientService_get_tables">get_tables</a></li>
@@ -51,6 +59,7 @@
 <li><a href="Client.html#Fn_ClientService_offer_cells_as_arrays">offer_cells_as_arrays</a></li>
 <li><a href="Client.html#Fn_ClientService_open_future">open_future</a></li>
 <li><a href="Client.html#Fn_ClientService_open_mutator">open_mutator</a></li>
+<li><a href="Client.html#Fn_ClientService_open_mutator_async">open_mutator_async</a></li>
 <li><a href="Client.html#Fn_ClientService_open_namespace">open_namespace</a></li>
 <li><a href="Client.html#Fn_ClientService_open_scanner">open_scanner</a></li>
 <li><a href="Client.html#Fn_ClientService_open_scanner_async">open_scanner_async</a></li>
@@ -58,9 +67,14 @@
 <li><a href="Client.html#Fn_ClientService_rename_table">rename_table</a></li>
 <li><a href="Client.html#Fn_ClientService_set_cell">set_cell</a></li>
 <li><a href="Client.html#Fn_ClientService_set_cell_as_array">set_cell_as_array</a></li>
+<li><a href="Client.html#Fn_ClientService_set_cell_as_array_async">set_cell_as_array_async</a></li>
+<li><a href="Client.html#Fn_ClientService_set_cell_async">set_cell_async</a></li>
 <li><a href="Client.html#Fn_ClientService_set_cells">set_cells</a></li>
 <li><a href="Client.html#Fn_ClientService_set_cells_as_arrays">set_cells_as_arrays</a></li>
+<li><a href="Client.html#Fn_ClientService_set_cells_as_arrays_async">set_cells_as_arrays_async</a></li>
+<li><a href="Client.html#Fn_ClientService_set_cells_async">set_cells_async</a></li>
 <li><a href="Client.html#Fn_ClientService_set_cells_serialized">set_cells_serialized</a></li>
+<li><a href="Client.html#Fn_ClientService_set_cells_serialized_async">set_cells_serialized_async</a></li>
 </ul>
 </td>
 <td><a href="Client.html#Struct_AccessGroup">AccessGroup</a><br/>
@@ -75,6 +89,7 @@
 <a href="Client.html#Enum_KeyFlag">KeyFlag</a><br/>
 <a href="Client.html#Struct_MutateSpec">MutateSpec</a><br/>
 <a href="Client.html#Typedef_Mutator">Mutator</a><br/>
+<a href="Client.html#Typedef_MutatorAsync">MutatorAsync</a><br/>
 <a href="Client.html#Enum_MutatorFlag">MutatorFlag</a><br/>
 <a href="Client.html#Typedef_Namespace">Namespace</a><br/>
 <a href="Client.html#Struct_NamespaceListing">NamespaceListing</a><br/>
@@ -104,11 +119,14 @@ DELETE_CF: column family is pending delete
 <p/>
 DELETE_CELL: key is pending delete
 <p/>
+DELETE_CELL_VERSION: delete specific timestamped version of key
+<p/>
 INSERT: key is an insert/update (default state)
 <br/><br/><table>
 <tr><td><code>DELETE_ROW</code></td><td><code>0</code></td></tr>
 <tr><td><code>DELETE_CF</code></td><td><code>1</code></td></tr>
 <tr><td><code>DELETE_CELL</code></td><td><code>2</code></td></tr>
+<tr><td><code>DELETE_CELL_VERSION</code></td><td><code>3</code></td></tr>
 <tr><td><code>INSERT</code></td><td><code>255</code></td></tr>
 </table></div>
 <div class="definition"><h3 id="Enum_MutatorFlag">Enumeration: MutatorFlag</h3>
@@ -148,6 +166,13 @@ table dump.
 <div class="definition"><h3 id="Typedef_Mutator">Typedef: Mutator</h3>
 <p><strong>Base type:</strong>&nbsp;<code>i64</code></p>
 Opaque ID for a table mutator
+<p/>
+A mutator is recommended for injecting large amount of data (across
+many calls to mutator methods)
+<br/></div>
+<div class="definition"><h3 id="Typedef_MutatorAsync">Typedef: MutatorAsync</h3>
+<p><strong>Base type:</strong>&nbsp;<code>i64</code></p>
+Opaque ID for a asynchronous table mutator
 <p/>
 A mutator is recommended for injecting large amount of data (across
 many calls to mutator methods)
@@ -466,6 +491,7 @@ TODO: add support for update results
 <tr><td>2</td><td>end_row</td><td><code>string</code></td><td></td><td>optional</td><td></td></tr>
 <tr><td>3</td><td>location</td><td><code>string</code></td><td></td><td>optional</td><td></td></tr>
 <tr><td>4</td><td>ip_address</td><td><code>string</code></td><td></td><td>optional</td><td></td></tr>
+<tr><td>5</td><td>hostname</td><td><code>string</code></td><td></td><td>optional</td><td></td></tr>
 </table><br/>Defines a table split
 <p/>
 <dl>
@@ -480,6 +506,9 @@ TODO: add support for update results
 <p/>
   <dt>ip_address</dt>
   <dd>The IP address of the split.</dd>
+<p/>
+  <dt>hostname</dt>
+  <dd>The hostname of the split.</dd>
 </dl>
 <br/></div><div class="definition"><h3 id="Struct_ColumnFamily">Struct: ColumnFamily</h3>
 <table><tr><th>Key</th><th>Field</th><th>Type</th><th>Description</th><th>Requiredness</th><th>Default value</th></tr>
@@ -593,6 +622,16 @@ mutator interface flattened.
 @param ns - namespace id
 @param table_name - table name
 @param schema - schema of the table (in xml)
+<br/></div><div class="definition"><h4 id="Fn_ClientService_alter_table">Function: ClientService.alter_table</h4>
+<pre><code>void</code> alter_table(<code><a href="Client.html#Typedef_Namespace">Namespace</a></code> ns,
+                 <code>string</code> table_name,
+                 <code>string</code> schema)
+    throws <code><a href="Client.html#Struct_ClientException">ClientException</a></code>
+</pre>Alter a table
+<p/>
+@param ns - namespace id
+@param table_name - table name
+@param schema - schema of the table (in xml)
 <br/></div><div class="definition"><h4 id="Fn_ClientService_open_namespace">Function: ClientService.open_namespace</h4>
 <pre><code><a href="Client.html#Typedef_Namespace">Namespace</a></code> open_namespace(<code>string</code> ns)
     throws <code><a href="Client.html#Struct_ClientException">ClientException</a></code>
@@ -634,6 +673,22 @@ mutator interface flattened.
 </pre>Fetch asynchronous results
 @param ff - Future object which has the asynchronous results
 @return - result from async scanner/mutator
+<br/></div><div class="definition"><h4 id="Fn_ClientService_future_is_empty">Function: ClientService.future_is_empty</h4>
+<pre><code>bool</code> future_is_empty(<code><a href="Client.html#Typedef_Future">Future</a></code> ff)
+    throws <code><a href="Client.html#Struct_ClientException">ClientException</a></code>
+</pre>Check if future object's queue is empty
+<br/></div><div class="definition"><h4 id="Fn_ClientService_future_is_full">Function: ClientService.future_is_full</h4>
+<pre><code>bool</code> future_is_full(<code><a href="Client.html#Typedef_Future">Future</a></code> ff)
+    throws <code><a href="Client.html#Struct_ClientException">ClientException</a></code>
+</pre>Check if future object's queue is full
+<br/></div><div class="definition"><h4 id="Fn_ClientService_future_is_cancelled">Function: ClientService.future_is_cancelled</h4>
+<pre><code>bool</code> future_is_cancelled(<code><a href="Client.html#Typedef_Future">Future</a></code> ff)
+    throws <code><a href="Client.html#Struct_ClientException">ClientException</a></code>
+</pre>Check if future object has been cancelled
+<br/></div><div class="definition"><h4 id="Fn_ClientService_future_has_outstanding">Function: ClientService.future_has_outstanding</h4>
+<pre><code>bool</code> future_has_outstanding(<code><a href="Client.html#Typedef_Future">Future</a></code> ff)
+    throws <code><a href="Client.html#Struct_ClientException">ClientException</a></code>
+</pre>Check if future object has outstanding operations
 <br/></div><div class="definition"><h4 id="Fn_ClientService_close_future">Function: ClientService.close_future</h4>
 <pre><code>void</code> close_future(<code><a href="Client.html#Typedef_Future">Future</a></code> ff)
     throws <code><a href="Client.html#Struct_ClientException">ClientException</a></code>
@@ -642,29 +697,23 @@ mutator interface flattened.
 <br/></div><div class="definition"><h4 id="Fn_ClientService_open_scanner">Function: ClientService.open_scanner</h4>
 <pre><code><a href="Client.html#Typedef_Scanner">Scanner</a></code> open_scanner(<code><a href="Client.html#Typedef_Namespace">Namespace</a></code> ns,
                      <code>string</code> table_name,
-                     <code><a href="Client.html#Struct_ScanSpec">ScanSpec</a></code> scan_spec,
-                     <code>bool</code> retry_table_not_found = 0)
+                     <code><a href="Client.html#Struct_ScanSpec">ScanSpec</a></code> scan_spec)
     throws <code><a href="Client.html#Struct_ClientException">ClientException</a></code>
 </pre>Open a table scanner
 @param ns - namespace id
 @param table_name - table name
 @param scan_spec - scan specification
-@param retry_table_not_found - whether to retry upon errors caused by
-       drop/create tables with the same name
 <br/></div><div class="definition"><h4 id="Fn_ClientService_open_scanner_async">Function: ClientService.open_scanner_async</h4>
 <pre><code><a href="Client.html#Typedef_ScannerAsync">ScannerAsync</a></code> open_scanner_async(<code><a href="Client.html#Typedef_Namespace">Namespace</a></code> ns,
                                 <code>string</code> table_name,
                                 <code><a href="Client.html#Typedef_Future">Future</a></code> future,
-                                <code><a href="Client.html#Struct_ScanSpec">ScanSpec</a></code> scan_spec,
-                                <code>bool</code> retry_table_not_found = 0)
+                                <code><a href="Client.html#Struct_ScanSpec">ScanSpec</a></code> scan_spec)
     throws <code><a href="Client.html#Struct_ClientException">ClientException</a></code>
 </pre>Open an asynchronous table scanner
 @param ns - namespace id
 @param table_name - table name
 @param future - callback object
 @param scan_spec - scan specification
-@param retry_table_not_found - whether to retry upon errors caused by
-       drop/create tables with the same name
 <br/></div><div class="definition"><h4 id="Fn_ClientService_close_scanner">Function: ClientService.close_scanner</h4>
 <pre><code>void</code> close_scanner(<code><a href="Client.html#Typedef_Scanner">Scanner</a></code> scanner)
     throws <code><a href="Client.html#Struct_ClientException">ClientException</a></code>
@@ -857,11 +906,31 @@ If you want guaranteed durability, use the open_mutator+set_cells* interface ins
 @param flush_interval - auto-flush interval in milliseconds; 0 disables it.
 <p/>
 @return mutator id
+<br/></div><div class="definition"><h4 id="Fn_ClientService_open_mutator_async">Function: ClientService.open_mutator_async</h4>
+<pre><code><a href="Client.html#Typedef_MutatorAsync">MutatorAsync</a></code> open_mutator_async(<code><a href="Client.html#Typedef_Namespace">Namespace</a></code> ns,
+                                <code>string</code> table_name,
+                                <code><a href="Client.html#Typedef_Future">Future</a></code> future,
+                                <code>i32</code> flags = 0)
+    throws <code><a href="Client.html#Struct_ClientException">ClientException</a></code>
+</pre>Open an asynchronous table mutator
+<p/>
+@param ns - namespace id
+@param table_name - table name
+@param future - callback object
+@param flags - mutator flags
+<p/>
+@return mutator id
 <br/></div><div class="definition"><h4 id="Fn_ClientService_close_mutator">Function: ClientService.close_mutator</h4>
 <pre><code>void</code> close_mutator(<code><a href="Client.html#Typedef_Mutator">Mutator</a></code> mutator,
                    <code>bool</code> flush = 1)
     throws <code><a href="Client.html#Struct_ClientException">ClientException</a></code>
 </pre>Close a table mutator
+<p/>
+@param mutator - mutator id to close
+<br/></div><div class="definition"><h4 id="Fn_ClientService_close_mutator_async">Function: ClientService.close_mutator_async</h4>
+<pre><code>void</code> close_mutator_async(<code><a href="Client.html#Typedef_MutatorAsync">MutatorAsync</a></code> mutator)
+    throws <code><a href="Client.html#Struct_ClientException">ClientException</a></code>
+</pre>Close an asynchronous table mutator
 <p/>
 @param mutator - mutator id to close
 <br/></div><div class="definition"><h4 id="Fn_ClientService_set_cell">Function: ClientService.set_cell</h4>
@@ -903,6 +972,45 @@ If you want guaranteed durability, use the open_mutator+set_cells* interface ins
 <pre><code>void</code> flush_mutator(<code><a href="Client.html#Typedef_Mutator">Mutator</a></code> mutator)
     throws <code><a href="Client.html#Struct_ClientException">ClientException</a></code>
 </pre>Flush mutator buffers
+<br/></div><div class="definition"><h4 id="Fn_ClientService_set_cell_async">Function: ClientService.set_cell_async</h4>
+<pre><code>void</code> set_cell_async(<code><a href="Client.html#Typedef_MutatorAsync">MutatorAsync</a></code> mutator,
+                    <code><a href="Client.html#Struct_Cell">Cell</a></code> cell)
+    throws <code><a href="Client.html#Struct_ClientException">ClientException</a></code>
+</pre>Set a cell in the table using an asynchonous mutator
+<p/>
+@param mutator - mutator id
+<p/>
+@param cell - the cell to set
+<br/></div><div class="definition"><h4 id="Fn_ClientService_set_cell_as_array_async">Function: ClientService.set_cell_as_array_async</h4>
+<pre><code>void</code> set_cell_as_array_async(<code><a href="Client.html#Typedef_MutatorAsync">MutatorAsync</a></code> mutator,
+                             <code><a href="Client.html#Typedef_CellAsArray">CellAsArray</a></code> cell)
+    throws <code><a href="Client.html#Struct_ClientException">ClientException</a></code>
+</pre>Alternative interface using array as cell using an asynchonous mutator
+<br/></div><div class="definition"><h4 id="Fn_ClientService_set_cells_async">Function: ClientService.set_cells_async</h4>
+<pre><code>void</code> set_cells_async(<code><a href="Client.html#Typedef_MutatorAsync">MutatorAsync</a></code> mutator,
+                     <code>list&lt;<code><a href="Client.html#Struct_Cell">Cell</a></code>&gt;</code> cells)
+    throws <code><a href="Client.html#Struct_ClientException">ClientException</a></code>
+</pre>Put a list of cells into a table using asynchonous mutator
+<p/>
+@param mutator - mutator id
+<p/>
+@param cells - a list of cells (a cell with no row key set is assumed
+       to have the same row key as the previous cell)
+<br/></div><div class="definition"><h4 id="Fn_ClientService_set_cells_as_arrays_async">Function: ClientService.set_cells_as_arrays_async</h4>
+<pre><code>void</code> set_cells_as_arrays_async(<code><a href="Client.html#Typedef_MutatorAsync">MutatorAsync</a></code> mutator,
+                               <code>list&lt;<code><a href="Client.html#Typedef_CellAsArray">CellAsArray</a></code>&gt;</code> cells)
+    throws <code><a href="Client.html#Struct_ClientException">ClientException</a></code>
+</pre>Alternative interface using array as cell
+<br/></div><div class="definition"><h4 id="Fn_ClientService_set_cells_serialized_async">Function: ClientService.set_cells_serialized_async</h4>
+<pre><code>void</code> set_cells_serialized_async(<code><a href="Client.html#Typedef_MutatorAsync">MutatorAsync</a></code> mutator,
+                                <code><a href="Client.html#Typedef_CellsSerialized">CellsSerialized</a></code> cells,
+                                <code>bool</code> flush = 0)
+    throws <code><a href="Client.html#Struct_ClientException">ClientException</a></code>
+</pre>Alternative interface using buffer of serialized cells
+<br/></div><div class="definition"><h4 id="Fn_ClientService_flush_mutator_async">Function: ClientService.flush_mutator_async</h4>
+<pre><code>void</code> flush_mutator_async(<code><a href="Client.html#Typedef_MutatorAsync">MutatorAsync</a></code> mutator)
+    throws <code><a href="Client.html#Struct_ClientException">ClientException</a></code>
+</pre>Flush mutator buffers
 <br/></div><div class="definition"><h4 id="Fn_ClientService_exists_namespace">Function: ClientService.exists_namespace</h4>
 <pre><code>bool</code> exists_namespace(<code>string</code> ns)
     throws <code><a href="Client.html#Struct_ClientException">ClientException</a></code>
@@ -938,6 +1046,17 @@ If you want guaranteed durability, use the open_mutator+set_cells* interface ins
                       <code>string</code> table_name)
     throws <code><a href="Client.html#Struct_ClientException">ClientException</a></code>
 </pre>Get the schema of a table as a string (that can be used with create_table)
+<p/>
+@param ns - namespace id
+<p/>
+@param table_name - table name
+<p/>
+@return schema string (in xml)
+<br/></div><div class="definition"><h4 id="Fn_ClientService_get_schema_str_with_ids">Function: ClientService.get_schema_str_with_ids</h4>
+<pre><code>string</code> get_schema_str_with_ids(<code><a href="Client.html#Typedef_Namespace">Namespace</a></code> ns,
+                               <code>string</code> table_name)
+    throws <code><a href="Client.html#Struct_ClientException">ClientException</a></code>
+</pre>Get the schema of a table as a string along with column family ids
 <p/>
 @param ns - namespace id
 <p/>
