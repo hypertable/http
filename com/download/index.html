@@ -43,7 +43,7 @@ thefield.value = ""
 
 <div id="download">
 	<h2>Hypertable 0.9.5.0 Binary Packages</h2>
-	<p>This page contains binary packages for the Hypertable 0.9.5.0 release.  Each package includes all of the dependent libraries, which is how we can provide a single set of generic packages for the Linux platform.  The only requirement is that the Linux platform must be based on glibc 2.4 or higher.  See the <a href="http://code.google.com/p/hypertable/wiki/HypertableManual">Hypertable Manual</a> for installation instructions.  Older Hypertable releases can be found at <a href="archive.html">Hypertable Binary Package Archive</a>
+	<p>This page contains binary packages for the Hypertable 0.9.5.0 release.  Each package includes all of the dependent libraries, which is how we can provide a single set of generic packages for the Linux platform.  The only requirement is that the Linux platform must be based on glibc 2.4 or higher.  We've provided OS specific builds for Linux systems in which the generic packages are incompatible (see <a href="#osspecific">Linux OS Specific</a> below).  If the generic packages don't work for you platform, please post to the <a href="http://groups.google.com/group/hypertable-user">Hypertable Users</a> mailing list and we'll build you a packages specific to your OS. See the <a href="http://code.google.com/p/hypertable/wiki/HypertableManual">Hypertable Manual</a> for installation instructions.  Older Hypertable releases can be found at <a href="archive.html">Hypertable Binary Package Archive</a>
 	<p>
         <ul>
           <li><a href="CHANGES.txt">Release Notes</a></li>
@@ -155,6 +155,36 @@ thefield.value = ""
 				<td><a href="http://cdn.hypertable.com/download/packages/0.9.5.0/hypertable-thriftbroker-0.9.5.0-darwin-i386.dmg">hypertable-thriftbroker-0.9.5.0-darwin-i386.dmg</a></td>
 				<td>21MB</td>
 				<td>Mac ".dmg", Thrift broker only</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<a name="osspecific"></a>
+        <h3>Linux OS Specific</h3>
+        <p>If none of the above generic packages work for you platform, please post to the <a href="http://groups.google.com/group/hypertable-user">Hypertable Users</a> mailing list and we'll build a packages specific to your OS and add it to the following table.
+	<table>
+		<thead>
+			<tr>
+				<th>Package</th>
+				<th>Size</th>
+				<th>Description</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><a href="http://cdn.hypertable.com/download/packages/0.9.5.0/hypertable-0.9.5.0-suse_11.4-i386.tar.bz2">hypertable-0.9.5.0-suse_11.4-i386.tar.bz2</a></td>
+				<td>53MB</td>
+				<td>OpenSuSE 11.4 32-bit bzip2 "tar" archive</td>
+			</tr>
+			<tr>
+				<td><a href="http://cdn.hypertable.com/download/packages/0.9.5.0/hypertable-0.9.5.0-ubuntu_11.04-x86_64.deb">hypertable-0.9.5.0-ubuntu_11.04-x86_64.deb</a></td>
+				<td>60MB</td>
+				<td>Ubuntu 11.04 64-bit Debian</td>
+			</tr>
+			<tr>
+				<td><a href="http://cdn.hypertable.com/download/packages/0.9.5.0/hypertable-0.9.5.0-ubuntu_11.04-x86_64.tar.bz2">hypertable-0.9.5.0-ubuntu_11.04-x86_64.tar.bz2</a></td>
+				<td>65MB</td>
+				<td>Ubuntu 11.04 64-bit bizp2 "tar" archive</td>
 			</tr>
 		</tbody>
 	</table>
