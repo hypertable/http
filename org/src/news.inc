@@ -1,8 +1,8 @@
 <div id="news">
 	<h3>News and Announcements</h3>
 	<dl>
-		<dt>June 17 2011</dt>
-                <dd>Hypertable, Inc. is hiring <a href="http://www.hypertable.com/careers/">Core Hypertable Engineers »</a> Positions available in Silicon Valley and Europe</dd>
+		<dt>August 1 2011</dt>
+                <dd>"Load Balancing in Hypertable" to be presented at <a href="http://osullivan.ucc.ie/aaai-2011-aidc/AIDC_2011_-_AAAI_2011_Workshop_on_AI_for_Data_Centre_Management_and_Cloud_Computing/Welcome.html">AAAI 2011 Workshop - AI For Data Center Management and Cloud Computing »</a><br>August 7, San Francisco, CA</dd>
 	</dl>
 	<dl>
 		<dt>May 18 2011</dt>
