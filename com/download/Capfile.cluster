@@ -1,7 +1,7 @@
 set :source_machine, "mothercompiler"
 set :install_dir,  "/opt/hypertable"
-set :hypertable_version, "0.9.5.0"
-set :default_pkg, "/tmp/hypertable-0.9.5.0-linux-x86_64.deb"
+set :hypertable_version, "0.9.5.1"
+set :default_pkg, "/tmp/hypertable-0.9.5.1-linux-x86_64.deb"
 set :default_dfs, "hadoop"
 set :default_config, "/opt/hypertable/dev-hypertable.cfg"
 
@@ -15,6 +15,8 @@ role :thriftbroker,  "thrift001", "thrift002", "thrift003", "thrift004", "thrift
 role :spare, "spare000", "spare001"
 
 ######################### END OF USER CONFIGURATION ############################
+set :prompt_stop, 1
+set :prompt_clean, 1
 
 def supported_pkgs
   {"rpm"=>1, "deb"=>1}
@@ -264,6 +266,13 @@ end
 
 desc "Stops all servers."
 task :stop do
+   
+  if (prompt_stop == 1)
+    puts "This will STOP ALL SERVERS in the Hypertable instance with MASTER='#{roles[:master].first}'. Proceed? ('yes' to proceed)"
+    value = STDIN.gets.chomp rescue nil
+    exit unless value == "yes"
+  end
+ 
   transaction do
     stop_master
     stop_slaves
@@ -313,8 +322,15 @@ task :stop_thriftbrokers, :roles => :thriftbroker do
   CMD
 end
 
-desc "Cleans hyperspace & rangeservers, removing all tables."
+desc "Destroys the database, removing all tables."
 task :cleandb do
+  
+  if prompt_clean == 1
+    puts "This will DELETE ALL DATA stored in the Hypertable instance with MASTER='#{roles[:master].first}'. ARE YOU SURE you want to proceed? ('Yes' to proceed)"
+    value = STDIN.gets.chomp rescue nil
+    exit unless value == "Yes"
+  end
+
   transaction do
     clean_master
     clean_hyperspace
@@ -327,7 +343,8 @@ task :clean_master, :roles => :master do
   run <<-CMD
    #{install_dir}/current/bin/start-dfsbroker.sh #{dfs} \
       #{config_option} && \
-   #{install_dir}/current/bin/clean-database.sh #{config_option} ;
+   #{install_dir}/current/bin/clean-database.sh #{config_option} && \ 
+   #{install_dir}/current/bin/stop-monitoring.sh ;
   CMD
 end
 

@@ -14,10 +14,19 @@ Warning: date(): It is not safe to rely on the system's timezone settings. You a
 <feed xmlns="http://www.w3.org/2005/Atom">
 <updated>
 Warning: date(): It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'America/Los_Angeles' for 'PDT/-7.0/DST' instead in /Users/doug/src/html/org/src/atom.phx on line 33
-2011-08-01T10:10:29-07:00</updated>
+2011-10-19T14:50:31-07:00</updated>
 <id>http://hypertable.org/atom.xml</id>
 <title>Hypertable News &amp; Announcements</title>
 <link rel="self" type="application/atom+xml;type=feed" href="/atom.xml"/>
+<entry>
+<updated>2011-10-19T00:00:00-07:00</updated>
+<id>http://hypertable.org/feed/r1319007600</id>
+<link rel="alternate" type="text/html" href="/index.html"/>
+<title type="html">Hypertable 0.9.5.1 released</title>
+<author>hypertable.org</author>
+<category term="news" scheme="http://hypertable.org/feed/type"/>
+<content type="html">Check it out!</content>
+</entry>
 <entry>
 <updated>2011-08-01T00:00:00-07:00</updated>
 <id>http://hypertable.org/feed/n1312182000</id>
@@ -26,15 +35,6 @@ Warning: date(): It is not safe to rely on the system's timezone settings. You a
 <author>hypertable.org</author>
 <category term="news" scheme="http://hypertable.org/feed/type"/>
 <content type="html">&quot;Load Balancing in Hypertable&quot; to be presented at &lt;a href=&quot;http://osullivan.ucc.ie/aaai-2011-aidc/AIDC_2011_-_AAAI_2011_Workshop_on_AI_for_Data_Centre_Management_and_Cloud_Computing/Welcome.html&quot;&gt;AAAI 2011 Workshop - AI For Data Center Management and Cloud Computing »&lt;/a&gt;&lt;br&gt;August 7, San Francisco, CA</content>
-</entry>
-<entry>
-<updated>2011-07-24T00:00:00-07:00</updated>
-<id>http://hypertable.org/feed/r1311490800</id>
-<link rel="alternate" type="text/html" href="/index.html"/>
-<title type="html">Hypertable 0.9.5.0 released</title>
-<author>hypertable.org</author>
-<category term="news" scheme="http://hypertable.org/feed/type"/>
-<content type="html">Check it out!</content>
 </entry>
 <entry>
 <updated>2011-05-18T00:00:00-07:00</updated>
