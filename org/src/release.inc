@@ -1,4 +1,4 @@
 <?
-$download_version="0.9.5.1";
-$release_version="0.9.5.1";
-$release_date="October 19 2011";
+$download_version="0.9.5.2";
+$release_version="0.9.5.2";
+$release_date="October 24 2011";
