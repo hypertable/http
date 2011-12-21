@@ -70,9 +70,13 @@ timestamp_predicate:
 
 options_spec:
   (REVS revision_count
+  | OFFSET row_offset
   | LIMIT row_count
+  | CELL_OFFSET cell_offset
   | CELL_LIMIT max_cells
   | CELL_LIMIT_PER_FAMILY max_cells_per_cf
+  | OFFSET row_offset
+  | CELL_OFFSET cell_offset
   | INTO FILE [file_location]filename[.gz]
   | DISPLAY_TIMESTAMPS
   | KEYS_ONLY
@@ -90,10 +94,16 @@ file_location:
 <h4>Description</h4>
 
 <p><p>
+SELECT is used to retrieve cells from a table. The retrieved cells are filtered
+with predicates for row keys, timestamps or cell values.
 The parser only accepts a single timestamp predicate.  The '=^' operator is the
 "starts with" operator.  It will return all rows that have the same prefix as
 the operand. Use of the value_predicate without the "CELLS" modifier to the
 "SELECT" command is deprecated.</p>
+
+<p>If your query selects several independent ranges by specifying multiple row
+predicates  (i.e. WHERE ROW &lt; 'a' OR ROW > 'c') then the LIMIT, CELL<em>LIMIT,
+OFFSET, CELL</em>OFFSET predicates are applied to each range independently.</p>
 
 <h4>Options</h4>
 
@@ -108,31 +118,51 @@ default all revisions of a cell are returned by the <code>SELECT</code> statemen
 cell revisions are stored in reverse-chronological order, so <code>REVS=1</code> will
 return the most recent version of the cell.</p>
 
+<h4><code>OFFSET row_offset</code></h4>
+
+<p><p>
+Skips the first <code>row_offset</code> rows returned by the <code>SELECT</code> statement.  This
+option cannot be combined with <code>CELL_OFFSET</code> and currently applies
+independently to each row (or cell) interval supplied in the <code>WHERE</code> clause.</p>
+
 <h4><code>LIMIT row_count</code></h4>
 
 <p><p>
 Limits the number of rows returned by the <code>SELECT</code> statement to <code>row_count</code>.
-The scope of this limit is within a single row or cell interval.  It is
-possible for a single query to return more than <code>row_count</code> rows if there
-are multiple row (or cell) intervals specified in the <code>WHERE</code> clause.</p>
+The limit applies independently to each row (or cell) interval specified
+in the <code>WHERE</code> clause.</p>
 
-<h4><code>CELL_LIMIT_PER_FAMILY max_cells_per_cf</code></h4>
+<h4><code>CELL_OFFSET cell_offset</code></h4>
 
 <p><p>
-Limits the number of cells returned per row per column family by the <code>SELECT</code> 
-statement to <code>max_cells_per_cf</code>.  The scope of this limit is within a single
-row or cell interval.  It is possible for a single query to return more than
-<code>max_cells_per_cf</code> cells if there are multiple row (or cell) intervals
-specified in the <code>WHERE</code> clause.</p>
+Skips the first cell_offset cells returned by the <code>SELECT</code> statement.
+This option cannot be combined with <code>OFFSET</code> and currently applies
+independently to each row (or cell) interval supplied in the WHERE clause.</p>
 
 <h4><code>CELL_LIMIT max_cells</code></h4>
 
 <p><p>
 Limits the total number of cells returned by the query to <code>max_cells</code>
-(applied after <code>CELL_LIMIT_PER_FAMILY</code>).  The scope of this limit is
-within a single row or cell interval.  It is possible for a single
-query to return more than <code>max_cells</code> cells if there are multiple
-row (or cell) intervals specified in the <code>WHERE</code> clause.</p>
+(applied after <code>CELL_LIMIT_PER_FAMILY</code>).  The limit applies independently to each row
+(or cell) interval specified in the <code>WHERE</code> clause.</p>
+
+<h4><code>CELL_LIMIT_PER_FAMILY max_cells_per_cf</code></h4>
+
+<p><p>
+Limits the number of cells returned per row per column family by the <code>SELECT</code> 
+statement to <code>max_cells_per_cf</code>.</p>
+
+<h4><code>OFFSET row_offset</code></h4>
+
+<p><p>
+Skips the first <code>row_offset</code> rows returned by the SELECT statement.
+Not allowed in combination with CELL_OFFSET.</p>
+
+<h4><code>CELL_OFFSET cell_offset</code></h4>
+
+<p><p>
+Skips the first <code>cell_offset</code> cells returned by the SELECT statement.
+Not allowed in combination with OFFSET.</p>
 
 <h4><code>INTO FILE [file://|dfs://]filename[.gz]</code></h4>
 

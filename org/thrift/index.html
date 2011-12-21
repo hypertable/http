@@ -1,0 +1,3131 @@
+<html>
+<head>
+<title>Hypertable Thrift API Documentation</title>
+</head>
+<body>
+<h1>Hypertable Thrift API Reference</h1>
+<h2>Table Of Contents</h2>
+<ul>
+  <li><a href="#namespaces">Namespaces</a></li>
+  <ul>
+    <li><a href="#namespace_open">namespace_open</a></li>
+    <li><a href="#namespace_close">namespace_close</a></li>
+    <li><a href="#namespace_create">namespace_create</a></li>
+    <li><a href="#namespace_drop">namespace_drop</a></li>
+    <li><a href="#namespace_exists">namespace_exists</a></li>
+    <li><a href="#namespace_get_listing">namespace_get_listing</a></li>
+  </ul>
+  <li><a href="#tables">Tables</a></li>
+  <ul>
+    <li><a href="#table_drop">table_drop</a></li>
+    <li><a href="#table_rename">table_rename</a></li>
+    <li><a href="#table_exists">table_exists</a></li>
+    <li><a href="#table_get_schema">table_get_schema</a></li>
+    <li><a href="#table_get_schema_str">table_get_schema_str</a></li>
+    <li><a href="#table_get_schema_str_with_ids">table_get_schema_str_with_ids</a></li>
+    <li><a href="#table_get_id">table_get_id</a></li>
+    <li><a href="#table_get_splits">table_get_splits</a></li>
+  </ul>
+  <li><a href="#hql">HQL</a></li>
+  <ul>
+    <li><a href="#hql_exec">hql_exec</a></li>
+    <li><a href="#hql_exec_as_arrays">hql_exec_as_arrays</a></li>
+    <li><a href="#hql_query">hql_query</a></li>
+    <li><a href="#hql_query_as_arrays">hql_query_as_arrays</a></li>
+  </ul>
+  <li><a href="#mutators">Mutators</a></li>
+  <ul>
+    <li><a href="#mutator_open">mutator_open</a></li>
+    <li><a href="#mutator_close">mutator_close</a></li>
+    <li><a href="#mutator_flush">mutator_flush</a></li>
+    <li><a href="#mutator_set_cell">mutator_set_cell</a></li>
+    <li><a href="#mutator_set_cell_as_array">mutator_set_cell_as_array</a></li>
+    <li><a href="#mutator_set_cells">mutator_set_cells</a></li>
+    <li><a href="#mutator_set_cells_as_arrays">mutator_set_cells_as_arrays</a></li>
+    <li><a href="#mutator_set_cells_serialized">mutator_set_cells_serialized</a></li>
+  </ul>
+  <li><a href="#scanners">Scanners</a></li>
+  <ul>
+    <li><a href="#scanner_open">scanner_open</a></li>
+    <li><a href="#scanner_close">scanner_close</a></li>
+    <li><a href="#scanner_get_cells">scanner_get_cells</a></li>
+    <li><a href="#scanner_get_cells_as_arrays">scanner_get_cells_as_arrays</a></li>
+    <li><a href="#scanner_get_cells_serialized">scanner_get_cells_serialized</a></li>
+  </ul>
+  <li><a href="#asynchronous">Asynchronous</a></li>
+  <ul>
+    <li><a href="#async_mutator_open">async_mutator_open</a></li>
+    <li><a href="#async_mutator_close">async_mutator_close</a></li>
+    <li><a href="#async_mutator_flush">async_mutator_flush</a></li>
+    <li><a href="#async_scanner_open">async_scanner_open</a></li>
+    <li><a href="#async_scanner_close">async_scanner_close</a></li>
+    <li><a href="#async_mutator_set_cell">async_mutator_set_cell</a></li>
+    <li><a href="#async_mutator_set_cell_as_array">async_mutator_set_cell_as_array</a></li>
+    <li><a href="#async_mutator_set_cells">async_mutator_set_cells</a></li>
+    <li><a href="#async_mutator_set_cells_as_arrays">async_mutator_set_cells_as_arrays</a></li>
+    <li><a href="#async_mutator_set_cells_serialized">async_mutator_set_cells_serialized</a></li>
+    <li><a href="#future_open">future_open</a></li>
+    <li><a href="#future_close">future_close</a></li>
+    <li><a href="#future_cancel">future_cancel</a></li>
+    <li><a href="#future_get_result">future_get_result</a></li>
+    <li><a href="#future_get_result_as_arrays">future_get_result_as_arrays</a></li>
+    <li><a href="#future_get_result_serialized">future_get_result_serialized</a></li>
+    <li><a href="#future_has_outstanding">future_has_outstanding</a></li>
+    <li><a href="#future_is_cancelled">future_is_cancelled</a></li>
+    <li><a href="#future_is_empty">future_is_empty</a></li>
+    <li><a href="#future_is_full">future_is_full</a></li>
+  </ul>
+  <li><a href="#convenience_apis">Convenience APIs</a></li>
+  <ul>
+    <li><a href="#get_cell">get_cell</a></li>
+    <li><a href="#get_cells">get_cells</a></li>
+    <li><a href="#get_cells_as_arrays">get_cells_as_arrays</a></li>
+    <li><a href="#get_cells_serialized">get_cells_serialized</a></li>
+    <li><a href="#get_row">get_row</a></li>
+    <li><a href="#get_row_as_arrays">get_row_as_arrays</a></li>
+    <li><a href="#get_row_serialized">get_row_serialized</a></li>
+    <li><a href="#set_cell">set_cell</a></li>
+    <li><a href="#set_cell_as_array">set_cell_as_array</a></li>
+    <li><a href="#set_cells">set_cells</a></li>
+    <li><a href="#set_cells_as_arrays">set_cells_as_arrays</a></li>
+    <li><a href="#set_cells_serialized">set_cells_serialized</a></li>
+    <li><a href="#shared_mutator_refresh">shared_mutator_refresh</a></li>
+    <li><a href="#shared_mutator_set_cell">shared_mutator_set_cell</a></li>
+    <li><a href="#shared_mutator_set_cell_as_array">shared_mutator_set_cell_as_array</a></li>
+    <li><a href="#shared_mutator_set_cells">shared_mutator_set_cells</a></li>
+    <li><a href="#shared_mutator_set_cells_as_arrays">shared_mutator_set_cells_as_arrays</a></li>
+  </ul>
+  <li><a href="#Datatypes">Datatypes</a></li>
+  <ul>
+    <li><a href="#AccessGroup">AccessGroup</a></li>
+    <li><a href="#Cell">Cell</a></li>
+    <li><a href="#CellAsArray">CellAsArray</a></li>
+    <li><a href="#CellInterval">CellInterval</a></li>
+    <li><a href="#CellsSerialized">CellsSerialized</a></li>
+    <li><a href="#ClientException">ClientException</a></li>
+    <li><a href="#ColumnFamily">ColumnFamily</a></li>
+    <li><a href="#Future">Future</a></li>
+    <li><a href="#HqlResult">HqlResult</a></li>
+    <li><a href="#HqlResultAsArrays">HqlResultAsArrays</a></li>
+    <li><a href="#Key">Key</a></li>
+    <li><a href="#KeyFlag">KeyFlag</a></li>
+    <li><a href="#MutateSpec">MutateSpec</a></li>
+    <li><a href="#Mutator">Mutator</a></li>
+    <li><a href="#MutatorAsync">MutatorAsync</a></li>
+    <li><a href="#MutatorFlag">MutatorFlag</a></li>
+    <li><a href="#Namespace">Namespace</a></li>
+    <li><a href="#NamespaceListing">NamespaceListing</a></li>
+    <li><a href="#Result">Result</a></li>
+    <li><a href="#ResultAsArrays">ResultAsArrays</a></li>
+    <li><a href="#ResultSerialized">ResultSerialized</a></li>
+    <li><a href="#RowInterval">RowInterval</a></li>
+    <li><a href="#ScanSpec">ScanSpec</a></li>
+    <li><a href="#Scanner">Scanner</a></li>
+    <li><a href="#ScannerAsync">ScannerAsync</a></li>
+    <li><a href="#Schema">Schema</a></li>
+    <li><a href="#TableSplit">TableSplit</a></li>
+    <li><a href="#Value">Value</a></li>
+  </ul>
+</ul>
+<a name="namespaces">
+<h2>Namespaces</h2>
+<h4>
+	<a name="namespace_open"></a>namespace_open</h4>
+<p style="margin-left: 40px; ">
+	This function opens a namespace, creating a namespace object within the ThriftBroker. &nbsp;It returns an ID that refers to the namespace object and can be used in subsequent operations.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+<a href="#namespace">Namespace</a> namespace_open(1:string ns) throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ns</em> -</td>
+			<td>
+				Full namespace path to open</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>RETURN VALUE</strong></span></p>
+<p style="margin-left: 40px; ">
+	Reference to open namespace.</p>
+<hr />
+<h4>
+	<a name="namespace_close"></a>namespace_close</h4>
+<p style="margin-left: 40px; ">
+	This function closes a namespace.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>DEFINITION</strong></span></p>
+<pre style="margin-left: 40px; ">
+void namespace_close(1:<a href="#namespace">Namespace</a> ns) throws (1:<a href="#clientexception">ClientException</a> e),</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>PARAMETERS</strong></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ns</em> -</td>
+			<td>
+				Namespace Identifier</td>
+		</tr>
+	</tbody>
+</table>
+<p>
+	&nbsp;</p>
+<hr />
+<h4>
+	<a name="namespace_create"></a>namespace_create</h4>
+<p style="margin-left: 40px; ">
+	Creates a namespace.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+void namespace_create(1:string ns) throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ns</em> -</td>
+			<td>
+				Full namespace path to create</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="namespace_drop"></a>namespace_drop</h4>
+<p style="margin-left: 40px; ">
+	Drops (deletes) a namespace.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+  void namespace_drop(1:string ns, 2:bool if_exists = 1)&#10;      throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ns</em> -</td>
+			<td>
+				Full path of namespace to drop</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>if_exists</em> -</td>
+			<td>
+				Boolean flag that prevents the operation from returning an error if the namespace path does not exist.</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="namespace_exists"></a>namespace_exists</h4>
+<p style="margin-left: 40px; ">
+	Checks for the existence of a namespace.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+  bool namespace_exists(1:string ns) throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ns</em> -</td>
+			<td>
+				Full path of namespace to check the existence of</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>RETURN VALUE</strong></span></p>
+<p style="margin-left: 40px; ">
+	<em>true</em> if exists, <em>false</em> otherwise.</p>
+<hr />
+<h4>
+	<a name="namespace_get_listing"></a>namespace_get_listing</h4>
+<p style="margin-left: 40px; ">
+	Lists the contents of a namespace. Checks for the existence of a namespace.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+list &lt; <a href="#namespacelisting">NamespaceListing</a> &gt; namespace_get_listing(1:<a href="#namespace">Namespace</a> ns)&#10;    throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ns</em> -</td>
+			<td>
+				Namespace identifier</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>RETURN VALUE</strong></span></p>
+<p style="margin-left: 40px; ">
+	List of <a href="#namespacelisting">NamespaceListing</a> objects.</p>
+<hr />
+<a name="tables">
+<h2>Tables</h2>
+<h4>
+	<a name="table_drop"></a>table_drop</h4>
+<p style="margin-left: 40px; ">
+	Drops (deletes) a table</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+void table_drop(1:<a href="#namespace">Namespace</a> ns, 2:string name,&#10;                3:bool if_exists = 1) throws (1:<a href="#clientexception">ClientException</a> e),</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ns</em> -</td>
+			<td>
+				Namespace identifier representing namespace containing table to drop</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>name</em> -</td>
+			<td>
+				Name of table to drop</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>if_exists</em> -</td>
+			<td>
+				Boolean flag that prevents the operation from generating an error if the table does not exist</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="table_rename"></a>table_rename</h4>
+<p style="margin-left: 40px; ">
+	Renames a table</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+void table_rename(1:<a href="#namespace">Namespace</a> ns, 2:string name, 3:string new_name)&#10;      throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ns</em> -</td>
+			<td>
+				Namespace identifier representing namespace containing table to rename</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>name</em> -</td>
+			<td>
+				Name of table to rename</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>new_name</em> -</td>
+			<td>
+				New name for table</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="table_exists"></a>table_exists</h4>
+<p style="margin-left: 40px; ">
+	Checks for the existence of a table</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+bool table_exists(1:<a href="#namespace">Namespace</a> ns, 2:string name) throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ns</em> -</td>
+			<td>
+				Namespace identifier representing namespace containing table to check for existence</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>name</em> -</td>
+			<td>
+				Name of table to check for existence</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+<p style="margin-left: 40px; ">
+	<i>true</i> if table exists, <i>false</i> othterwise</p>
+<hr />
+<h4>
+	<a name="table_get_schema"></a>table_get_schema</h4>
+<p style="margin-left: 40px; ">
+	Get the <a href="#schema">Schema</a> object representing the table definition</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+<a href="#schema">Schema</a> table_get_schema(1:<a href="#namespace">Namespace</a> ns, 2:string table_name)&#10;    throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ns</em> -</td>
+			<td>
+				Namespace identifier representing namespace containing table for which to fetch schema</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>table_name</em> -</td>
+			<td>
+				Name of table for which to fetch schema</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+<p style="margin-left: 40px; ">
+	Schema object representing table definition</p>
+<hr />
+<h4>
+	<a name="table_get_schema_str"></a>table_get_schema_str</h4>
+<p style="margin-left: 40px; ">
+	Get the schema XML string representing the table definition</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+string table_get_schema_str(1:<a href="#namespace">Namespace</a> ns, 2:string table_name)&#10;    throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ns</em> -</td>
+			<td>
+				Namespace identifier representing namespace containing table for which to fetch schema</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>table_name</em> -</td>
+			<td>
+				Name of table for which to fetch schema</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+<p style="margin-left: 40px; ">
+	XML schema string representing table definition</p>
+<hr />
+<h4>
+	<a name="table_get_schema_str_with_ids"></a>table_get_schema_str_with_ids</h4>
+<p style="margin-left: 40px; ">
+	Get the schema XML string, containing internal column identifiers, representing the table definition</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+string table_get_schema_str_with_ids(1:<a href="#namespace">Namespace</a> ns, 2:string table_name)&#10;    throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ns</em> -</td>
+			<td>
+				Namespace identifier representing namespace containing table for which to fetch schema</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>table_name</em> -</td>
+			<td>
+				Name of table for which to fetch schema</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+<p style="margin-left: 40px; ">
+	XML schema string, containing column identifiers, representing table definition</p>
+<hr />
+<h4>
+	<a name="table_get_id"></a>table_get_id</h4>
+<p style="margin-left: 40px; ">
+	Fetch the internal table identifier</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+string table_get_id(1:<a href="#namespace">Namespace</a> ns, 2:string table_name)&#10;    throws (1:<a href="#clientexception">ClientException</a> e),</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ns</em> -</td>
+			<td>
+				Namespace identifier representing namespace containing table for which to fetch identifier</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>table_name</em> -</td>
+			<td>
+				Name of table for which to fetch identifier</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+<p style="margin-left: 40px; ">
+	String representing table identifier</p>
+<hr />
+<h4>
+	<a name="table_get_splits"></a>table_get_splits</h4>
+<p style="margin-left: 40px; ">
+	Fetch table splits. This method is used by the MapReduce framework to obtian table splits for the map phase.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+list &lt; <a href="#tablesplit">TableSplit</a> &gt; table_get_splits(1:<a href="#namespace">Namespace</a> ns, 2:string table_name)&#10;    throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ns</em> -</td>
+			<td>
+				Namespace identifier representing namespace containing table for which to fetch table splits</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>table_name</em> -</td>
+			<td>
+				Name of table for which to fetch table splits</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+<p style="margin-left: 40px; ">
+	List of <a href="#tablesplit">TableSplit</a> objects for table</p>
+<hr />
+<a name="hql">
+<h2>HQL</h2>
+<h4>
+	<a name="hql_exec"></a>hql_exec</h4>
+<p style="margin-left: 40px; ">
+	Versatile method to execute an HQL statement</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+  <a href="#hqlresult">HqlResult</a> hql_exec(1:i64 ns, 2:string command, 3:bool noflush, 4:bool unbuffered)&#10;    throws (1:<a href="#clientexception">Client.ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ns</em> -</td>
+			<td>
+				Namespace identifier representing namespace context within which to execute HQL command</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>command</em> -</td>
+			<td>
+				HQL command to execute</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>noflush</em> -</td>
+			<td>
+				Do not auto commit any modifications (return a <a href="#mutator">Mutator</a>)</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>unbuffered</em> -</td>
+			<td>
+				Return a <a href="#scanner">Scanner</a> instead of buffered results</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+<p style="margin-left: 40px; ">
+	<a href="#hqlresult">HqlResult</a> containing the result of the HQL command</p>
+<hr />
+<h4>
+	<a name="hql_exec_as_arrays"></a>hql_exec_as_arrays</h4>
+<p style="margin-left: 40px; ">
+	Versatile method to execute an HQL statement. Similar to the <a href="#hql_exec">hql_exec</a> method, except returns an <a href="#hqlresultasarrays">HqlResultAsArrays</a> object which can be more efficient to decode for languages (e.g. Ruby) where object construction overhead is large in comparison to native datatypes (e.g. string).</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+  <a href="#hqlresultasarrays">HqlResultAsArrays</a> hql_exec_as_arrays(1:i64 ns, 2:string command, 3:bool noflush, 4:bool unbuffered)&#10;    throws (1:<a href="#clientexception">Client.ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ns</em> -</td>
+			<td>
+				Namespace identifier representing namespace context within which to execute HQL command</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>command</em> -</td>
+			<td>
+				HQL command to execute</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>noflush</em> -</td>
+			<td>
+				Do not auto commit any modifications (return a <a href="#mutator">Mutator</a>)</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>unbuffered</em> -</td>
+			<td>
+				Return a <a href="#scanner">Scanner</a> instead of buffered results</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+<p style="margin-left: 40px; ">
+	<a href="#hqlresultasarrays">HqlResultAsArrays</a> containing the result of the HQL command</p>
+<hr />
+<h4>
+	<a name="hql_query"></a>hql_query</h4>
+<p style="margin-left: 40px; ">
+	Convenience method for executing an buffered and flushed HQL command</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+  <a href="#hqlresult">HqlResult</a> hql_query(1:i64 ns, 2:string command)&#10;    throws (1:<a href="#clientexception">Client.ClientException</a> e)&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ns</em> -</td>
+			<td>
+				Namespace identifier representing namespace context within which to execute HQL command</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>command</em> -</td>
+			<td>
+				HQL command to execute</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+<p style="margin-left: 40px; ">
+	<a href="#hqlresult">HqlResult</a> containing the result of the HQL command</p>
+<hr />
+<h4>
+	<a name="hql_query_as_arrays"></a>hql_query_as_arrays</h4>
+<p style="margin-left: 40px; ">
+	Convenience method for executing an buffered and flushed HQL command. Similar to the <a href="#hql_query">hql_query</a> method, except returns an <a href="#hqlresultasarrays">HqlResultAsArrays</a> object which can be more efficient to decode for languages (e.g. Ruby) where object construction overhead is large in comparison to native datatypes (e.g. string).</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+<a href="#hqlresultasarrays">HqlResultAsArrays</a> hql_query_as_arrays(1:i64 ns, 2:string command)&#10;    throws (1:<a href="#clientexception">Client.ClientException</a> e)&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ns</em> -</td>
+			<td>
+				Namespace identifier representing namespace context within which to execute HQL command</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>command</em> -</td>
+			<td>
+				HQL command to execute</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+<p style="margin-left: 40px; ">
+	<a href="#hqlresultasarrays">HqlResultAsArrays</a> containing the result of the HQL command</p>
+<hr />
+<a name="mutators">
+<h2>Mutators</h2>
+<h4>
+	<a name="mutator_open"></a>mutator_open</h4>
+<p style="margin-left: 40px; ">
+	Opens (creates) a table mutator</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+<a href="#mutator">Mutator</a> mutator_open(1:<a href="#namespace">Namespace</a> ns, 2:string table_name,&#10;                     3:i32 flags = 0; throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ns</em> -</td>
+			<td>
+				Namespace identifier representing namespace containing table on which to create mutator</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>table_name</em> -</td>
+			<td>
+				Name of table on which to create mutator</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>flags</em> -</td>
+			<td>
+				Bitmask of <a href="#mutatorflag">MutatorFlag</a> that control the behavior of the table mutator</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+<p style="margin-left: 40px; ">
+	Opaque identifier for table mutator</p>
+<hr />
+<h4>
+	<a name="mutator_close"></a>mutator_close</h4>
+<p style="margin-left: 40px; ">
+	Closes a table mutator</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+void mutator_close(1:<a href="#mutator">Mutator</a> mutator) throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>mutator</em> -</td>
+			<td>
+				Opaque identifier of mutator to close</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="mutator_flush"></a>mutator_flush</h4>
+<p style="margin-left: 40px; ">
+	Flushes the mutator by sending all buffered updates to the appropriate RangeServers</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+void mutator_flush(1:<a href="#mutator">Mutator</a> mutator) throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>mutator</em> -</td>
+			<td>
+				Opaque identifier of mutator to flush</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="mutator_set_cell"></a>mutator_set_cell</h4>
+<p style="margin-left: 40px; ">
+	Mutates the table by inserting the given <a href="#cell">Cell</a> object. The cell may be buffered client-side and will be flushed (persisted) when the client side cell buffers fill up, or when <a href="#mutator_flush">mutator_flush</a> is called, or the mutator is closed.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+void mutator_set_cell(1:<a href="#mutator">Mutator</a> mutator, 2:<a href="#cell">Cell</a> cell) throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>mutator</em> -</td>
+			<td>
+				Opaque identifier of mutator on which to insert cell</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>cell</em> -</td>
+			<td>
+				<a href="#cell">Cell</a> object to insert via mutator</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="mutator_set_cell_as_array"></a>mutator_set_cell_as_array</h4>
+<p style="margin-left: 40px; ">
+	Mutates the table by inserting the given <a href="#cellasarray">CellAsArray</a> object. This method is similar to the <a href="#mutator_set_cell">mutator_set_cell</a> method except that it inserts a <a href="#cellasarray">CellAsArray</a> object which can be more efficient for languages (e.g. Ruby) where object construction overhead is large in comparison to native datatypes (e.g. string). The cell may be buffered client-side and will be flushed (persisted) when the client side cell buffers fill up, or when <a href="#mutator_flush">mutator_flush</a> is called, or the mutator is closed.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+void mutator_set_cell_as_array(1:<a href="#mutator">Mutator</a> mutator, 2:<a href="#cellasarray">CellAsArray</a> cell) throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>mutator</em> -</td>
+			<td>
+				Opaque identifier of mutator on which to insert cell</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>cell</em> -</td>
+			<td>
+				<a href="#cellasarray">CellAsArray</a> object to insert via mutator</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="mutator_set_cells"></a>mutator_set_cells</h4>
+<p style="margin-left: 40px; ">
+	Mutates the table by inserting the given list of <a href="#cell">Cell</a> objects. The cells may be buffered client-side and will be flushed (persisted) when the client side cell buffers fill up, or when <a href="#mutator_flush">mutator_flush</a> is called, or the mutator is closed.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+void mutator_set_cells(1:<a href="#mutator">Mutator</a> mutator, 2:list &lt; <a href="#cell">Cell</a> &gt; cells)&#10;    throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>mutator</em> -</td>
+			<td>
+				Opaque identifier of mutator on which to insert cells</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>cells</em> -</td>
+			<td>
+				List of <a href="#cell">Cell</a> objects representing cells to insert via mutator</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="mutator_set_cells_as_arrays"></a>mutator_set_cells_as_arrays</h4>
+<p style="margin-left: 40px; ">
+	Mutates the table by inserting the given list of <a href="#cellasarray">CellAsArray</a> objects. This method is similar to the <a href="#mutator_set_cells">mutator_set_cells</a> method except that it inserts a list of <a href="#cellasarray">CellAsArray</a> objects which can be more efficient for languages (e.g. Ruby) where object construction overhead is large in comparison to native datatypes (e.g. string). The cells may be buffered client-side and will be flushed (persisted) when the client side cell buffers fill up, or when <a href="#mutator_flush">mutator_flush</a> is called, or the mutator is closed.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+void mutator_set_cells_as_arrays(1:<a href="#mutator">Mutator</a> mutator, 2:list &lt; <a href="#cellasarray">CellAsArray</a> &gt; cells)&#10;      throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>mutator</em> -</td>
+			<td>
+				Opaque identifier of mutator on which to insert list of cells</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>cells</em> -</td>
+			<td>
+				List of <a href="#cellasarray">CellAsArray</a> objects representing cells to insert via mutator</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="mutator_set_cells_serialized"></a>mutator_set_cells_serialized</h4>
+<p style="margin-left: 40px; ">
+	Mutates the table by inserting the given list of cells contained in a <a href="#cellsserialized">CellsSerialized</a> object. This method is similar to the mutator_set_cells method except that it accepts a <a href="#cellsserialized">CellsSerialized</a> object which is fairly efficient to encode and decode. The cells may be buffered client-side and will be flushed (persisted) when the client side cell buffers fill up, or when <a href="#mutator_flush">mutator_flush</a> is called, or the mutator is closed.</p>
+<p style="margin-left: 40px; ">
+	<em>Note:</em> The classes <code>SerializedCellsReader</code> and <code>SerializedCellsWriter</code> that are used to create CellsSerialized objects are currently only available in Java and C++ which effectively makes this method only available in Java and C++ as well.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+  void mutator_set_cells_serialized(1:<a href="#mutator">Mutator</a> mutator, 2:<a href="#cellsserialized">CellsSerialized</a> cells,&#10;                               3:bool flush = 0) throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>mutator</em> -</td>
+			<td>
+				Opaque identifier of mutator on which to insert cells</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>cells</em> -</td>
+			<td>
+				<a href="#cellsserialized">CellsSerialized</a> object containing list of cells to insert via mutator</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>flush</em> -</td>
+			<td>
+				Boolean flag to cause a mutator flush after the cells have been inserted</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<a name="scanners">
+<h2>Scanners</h2>
+<h4>
+	<a name="scanner_open"></a>scanner_open</h4>
+<p style="margin-left: 40px; ">
+	Opens a table scanner</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+  <a href="#scanner">Scanner</a> scanner_open(1:<a href="#namespace">Namespace</a> ns, 2:string table_name,&#10;                       3:<a href="#scanspec">ScanSpec</a> scan_spec) throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ns</em> -</td>
+			<td>
+				Namespace identifier of namespace containing table on which to create scanner</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>table_name</em> -</td>
+			<td>
+				Name of table on which to create scanner</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>scan_spec</em> -</td>
+			<td>
+				<a href="#scanspec">ScanSpec</a> object representing query predicate. &nbsp;It defines what cells will be returned by the scanner</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+<p style="margin-left: 40px; ">
+	Opaque identifier for table scanner</p>
+<hr />
+<h4>
+	<a name="scanner_close"></a>scanner_close</h4>
+<p style="margin-left: 40px; ">
+	Closes a table scanner</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+void scanner_close(1:<a href="#scanner">Scanner</a> scanner) throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>scanner</em> -</td>
+			<td>
+				Opaque identifier of scanner to close</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="scanner_get_cells"></a>scanner_get_cells</h4>
+<p style="margin-left: 40px; ">
+	Fetches the next block of cells from an existing scan</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+list &lt; <a href="#cell">Cell</a> &gt; scanner_get_cells(1:<a href="#scanner">Scanner</a> scanner)&#10;    throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>scanner</em> -</td>
+			<td>
+				Opaque identifier of scanner from which to fetch the next block of cells</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+<p style="margin-left: 40px; ">
+	List of cells returned by the scanner</p>
+<hr />
+<h4>
+	<a name="scanner_get_cells_as_arrays"></a>scanner_get_cells_as_arrays</h4>
+<p style="margin-left: 40px; ">
+	Fetches the next block of cells from an existing scan. Similar to <a href="#scanner_get_cells">scanner_get_cells</a>, except that it returns a list of <a href="#cellasarray">CellAsArray</a> objects which are more efficient in languages (e.g. Ruby) where object creation overhead is very high.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+list &lt; <a href="#cellasarray">CellAsArray</a> &gt; scanner_get_cells_as_arrays(1:<a href="#scanner">Scanner</a> scanner)&#10;    throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>scanner</em> -</td>
+			<td>
+				Opaque identifier of scanner from which to fetch the next block of cells</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+<p style="margin-left: 40px; ">
+	List of cells returned by the scanner</p>
+<hr />
+<h4>
+	<a name="scanner_get_cells_serialized"></a>scanner_get_cells_serialized</h4>
+<p style="margin-left: 40px; ">
+	Fetches the next block of cells from an existing scan. Similar to <a href="#scanner_get_cells">scanner_get_cells</a> except that it returns a <a href="#cellsserialized">CellsSerialized</a> object which is fairly efficient to encode and decode.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+<a href="#cellsserialized">CellsSerialized</a> scanner_get_cells_serialized(1:<a href="#scanner">Scanner</a> scanner)&#10;    throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>scanner</em> -</td>
+			<td>
+				Opaque identifier of scanner from which to fetch the next block of cells</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+<p style="margin-left: 40px; ">
+	List of cells returned by the scanner</p>
+<hr />
+<a name="asynchronous">
+<h2>Asynchronous</h2>
+<h4>
+	<a name="async_mutator_open"></a>async_mutator_open</h4>
+<p style="margin-left: 40px; ">
+	Opens an asynchronous table mutator</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+<a href="#mutatorasync">MutatorAsync</a> async_mutator_open(1:<a href="#namespace">Namespace</a> ns, 2:string table_name, 3:<a href="#future">Future</a> future,&#10;      4:i32 flags = 0) throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ns</em> -</td>
+			<td>
+				Namespace identifier representing namespace containing table on which to create asynchronous mutator</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>table_name</em> -</td>
+			<td>
+				Name of table on which to create asynchronous mutator</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>future</em> -</td>
+			<td>
+				Reference to future object that can be used to obtain the result of the asynchronous mutation</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>flags</em> -</td>
+			<td>
+				Bitmask of <a href="#mutatorflag">MutatorFlag</a> that control the behavior of the asynchronous table mutator</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+<p style="margin-left: 40px; ">
+	Opaque identifier of asynchronous table mutator</p>
+<hr />
+<h4>
+	<a name="async_mutator_close"></a>async_mutator_close</h4>
+<p style="margin-left: 40px; ">
+	Closes an asynchronous table mutator</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+void async_mutator_close(1:<a href="#mutatorasync">MutatorAsync</a> mutator) throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>mutator</em> -</td>
+			<td>
+				Opaque identifier of asynchronous mutator to close</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="async_mutator_flush"></a>async_mutator_flush</h4>
+<p style="margin-left: 40px; ">
+	Flush asynchronous mutator buffers, sending all pending updates to the RangeServers for which they are destined.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+void async_mutator_flush(1:<a href="#mutatorasync">MutatorAsync</a> mutator) throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>mutator</em> -</td>
+			<td>
+				Opaque identifier of asynchronous mutator to flush</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="async_scanner_open"></a>async_scanner_open</h4>
+<p style="margin-left: 40px; ">
+	Opens an asynchronous table scanner which can be used to query a table asynchronously.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+<a href="#scannerasync">ScannerAsync</a> async_scanner_open(1:<a href="#namespace">Namespace</a> ns, 2:string table_name, 3:<a href="#future">Future</a> future, 4:<a href="#scanspec">ScanSpec</a> scan_spec)&#10;   throws (1:ClientException e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ns</em> -</td>
+			<td>
+				Namespace identifier of namespace containing table on which to create asynchronous scanner</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>table_name</em> -</td>
+			<td>
+				Name of table on which to create asynchronous scanner</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>future</em> -</td>
+			<td>
+				Reference to future object that can be used to obtain the result of the asynchronous scan</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>scan_spec</em> -</td>
+			<td>
+				<a href="#scanspec">ScanSpec</a> object representing scan predicate, defining what cells will be returned by the scanner</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+<p style="margin-left: 40px; ">
+	Opaque identifier of asynchronous table scanner</p>
+<hr />
+<h4>
+	<a name="scanner_close"></a>async_scanner_close</h4>
+<p style="margin-left: 40px; ">
+	Closes an asynchronous table scanner</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+void async_scanner_close(1:<a href="#scannerasync">ScannerAsync</a> scanner) throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>scanner</em> -</td>
+			<td>
+				Opaque identifier of asynchronous scanner to close</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="async_mutator_set_cell"></a>async_mutator_set_cell</h4>
+<p style="margin-left: 40px; ">
+	Mutates the table by inserting the given <a href="#cell">Cell</a> object. The cell may be buffered client-side and will be flushed (persisted) when the client side cell buffers fill up, or when <a href="#async_mutator_flush">async_mutator_flush</a> is called, or the mutator is closed.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+void async_mutator_set_cell(1:<a href="#mutatorasync">MutatorAsync</a> mutator, 2:<a href="#cell">Cell</a> cell)&#10;    throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>mutator</em> -</td>
+			<td>
+				Reference to asynchronous mutator through which to insert the cell</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>cell</em> -</td>
+			<td>
+				<a href="#cell">Cell</a> object to insert</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="async_mutator_set_cell_as_array"></a>async_mutator_set_cell_as_array</h4>
+<p style="margin-left: 40px; ">
+	Mutates the table by inserting the given <a href="#cellasarray">CellAsArray</a> object. This method is similar to the async_mutator_set_cell method except that it inserts a <a href="#cellasarray">CellAsArray</a> object which can be more efficient for languages (e.g. Ruby) where object construction overhead is large in comparison to native datatypes (e.g. string). The cell may be buffered client-side and will be flushed (persisted) when the client side cell buffers fill up, or when <a href="#async_mutator_flush">async_mutator_flush</a> is called, or the mutator is closed.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+  void async_mutator_set_cell_as_array(1:<a href="#mutatorasync">MutatorAsync</a> mutator, 2:<a href="#cellasarray">CellAsArray</a> cell)&#10;      throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>mutator</em> -</td>
+			<td>
+				Reference to asynchronous mutator through which to insert the cell</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>cell</em> -</td>
+			<td>
+				<a href="#cellasarray">CellAsArray</a> object to insert</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="async_mutator_set_cells"></a>async_mutator_set_cells</h4>
+<p style="margin-left: 40px; ">
+	Mutates the table by inserting the given list of <a href="#cell">Cell</a> objects. The cells may be buffered client-side and will be flushed (persisted) when the client side cell buffers fill up, or when <a href="#async_mutator_flush">async_mutator_flush</a> is called, or the mutator is closed.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+void async_mutator_set_cells(1:<a href="#mutator">Mutator</a> mutator, 2:list &lt; <a href="#cell">Cell</a> &gt; cells)&#10;    throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>mutator</em> -</td>
+			<td>
+				Reference to asynchronous mutator through which to insert the cells</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>cells</em> -</td>
+			<td>
+				List of <a href="#cell">Cell</a> objects to insert</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="async_mutator_set_cells_as_arrays"></a>async_mutator_set_cells_as_arrays</h4>
+<p style="margin-left: 40px; ">
+	Mutates the table by inserting the given list of <a href="#cellasarray">CellAsArray</a> objects. This method is similar to the <a href="#async_mutator_set_cells">async_mutator_set_cells</a> method except that it inserts a list of <a href="#cellasarray">CellAsArray</a> objects which can be more efficient for languages (e.g. Ruby) where object construction overhead is large in comparison to native datatypes (e.g. string). The cells may be buffered client-side and will be flushed (persisted) when the client side cell buffers fill up, or when <a href="#async_mutator_flush">async_mutator_flush</a> is called, or the mutator is closed.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+void mutator_set_cells_as_arrays(1:<a href="#mutator">Mutator</a> mutator, 2:list &lt; <a href="#cellasarray">CellAsArray</a> &gt; cells)&#10;      throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>mutator</em> -</td>
+			<td>
+				Reference to asynchronous mutator through which to insert the list of cells</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>cells</em> -</td>
+			<td>
+				List of <a href="#cellasarray">CellAsArray</a> objects to insert</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="async_mutator_set_cells_serialized"></a>async_mutator_set_cells_serialized</h4>
+<p style="margin-left: 40px; ">
+	Mutates the table by inserting the given list of cells contained in a <a href="#cellsserialized">CellsSerialized</a> object. This method is similar to the <a href="#async_mutator_set_cells">async_mutator_set_cells</a> method except that it accepts a <a href="#cellsserialized">CellsSerialized</a> object which is fairly efficient to encode and decode. The cells may be buffered client-side and will be flushed (persisted) when the client side cell buffers fill up, or when <a href="#async_mutator_flush">async_mutator_flush</a> is called, or the mutator is closed.</p>
+<p style="margin-left: 40px; ">
+	<em>Note:</em> The classes <code>SerializedCellsReader</code> and <code>SerializedCellsWriter</code> that are used to create CellsSerialized objects are currently only available in Java and C++ which effectively makes this method only available in Java and C++ as well.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+  void async_mutator_set_cells_serialized(1:<a href="#mutator">Mutator</a> mutator, 2:<a href="#cellsserialized">CellsSerialized</a> cells, 3:bool flush = 0)&#10;    throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>mutator</em> -</td>
+			<td>
+				Reference to asynchronous mutator through which to insert the list of cells</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>cells</em> -</td>
+			<td>
+				<a href="#cellsserialized">CellsSerialized</a> object containing list of cells to insert</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>flush</em> -</td>
+			<td>
+				Boolean flag to cause a mutator flush after the cells have been inserted</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="future_open"></a>future_open</h4>
+<p style="margin-left: 40px; ">
+	Opens (creates) a future object that can be used to wait for and obtain the results of asynchronous operations</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+  <a href="#future">Future</a> future_open(1:i32 capacity) throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>capacity</em> -</td>
+			<td>
+				The quantity of asynchonous result data that the future can accumulate before blocking</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+<p style="margin-left: 40px; ">
+	Opaque identifier for the opened future object</p>
+<hr />
+<h4>
+	<a name="future_close"></a>future_close</h4>
+<p style="margin-left: 40px; ">
+	Closes a future object</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+  void future_close(1:<a href="#future">Future</a> ff) throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>ff</em> -</td>
+			<td>
+				Reference to future object</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="future_cancel"></a>future_cancel</h4>
+<p style="margin-left: 40px; ">
+	Cancels tasks outstanding on a future object</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+  void future_close(1:<a href="#future">Future</a> ff) throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>ff</em> -</td>
+			<td>
+				Reference to future object</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="future_get_result"></a>future_get_result</h4>
+<p style="margin-left: 40px; ">
+	Fetches next asynchronous result object</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+  <a href="#result">Result</a> future_get_result(1:<a href="#future">Future</a> ff) throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>ff</em> -</td>
+			<td>
+				Reference to future object</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+<p style="margin-left: 40px; ">
+	Result object for next completed asynchronous operation</p>
+<hr />
+<h4>
+	<a name="future_get_result_as_arrays"></a>future_get_result_as_arrays</h4>
+<p style="margin-left: 40px; ">
+	Fetches next asynchronous result object. Similar to future_get_result except that it returns a <a href="#resultasarrays">ResultAsArrays</a> object which contains a list of <a href="#cellasarrays">CellAsArrays</a> member for scan results which can be more efficient for languages (e.g. Ruby) where object construction overhead is large in comparison to native datatypes (e.g. string).</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+  <a href="#resultasarrays">ResultAsArrays</a> future_get_result_as_arrays(1:<a href="#future">Future</a> ff)&#10;    throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>ff</em> -</td>
+			<td>
+				Reference to future object</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+<p style="margin-left: 40px; ">
+	<a href="#resultasarrays">ResultAsArrays</a> object for next completed asynchronous operation</p>
+<hr />
+<h4>
+	<a name="future_get_result_serialized"></a>future_get_result_serialized</h4>
+<p style="margin-left: 40px; ">
+	Fetches next asynchronous result object. Similar to <a href="#future_get_result">future_get_result</a> except that it returns a <a href="#resultserialized">ResultSerialized</a> object which contains a <a href="#cellsserialized">CellsSerialized</a> member for scan results. Encoding and decoding cells to/from the CellsSerialized object is more efficient in languages such as Java and C++.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+  <a href="#resultserialized">ResultSerialized</a> future_get_result_serialized(1:<a href="#future">Future</a> ff)&#10;    throws (1:<a href="#clientexception">ClientException</a> e),  &#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>ff</em> -</td>
+			<td>
+				Reference to future object</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+<p style="margin-left: 40px; ">
+	<a href="#resultserialized">ResultSerialized</a> object for next completed asynchronous operation</p>
+<hr />
+<h4>
+	<a name="future_has_outstanding"></a>future_has_outstanding</h4>
+<p style="margin-left: 40px; ">
+	Determines whether or not a future object has outstanding asynchronous</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+  bool future_has_outstanding(1:<a href="#future">Future</a> ff) throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>ff</em> -</td>
+			<td>
+				Reference to future object</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+<p style="margin-left: 40px; ">
+	<i>true</i> if operations are outstanding, <i>false</i> otherwise</p>
+<hr />
+<h4>
+	<a name="future_is_cancelled"></a>future_is_cancelled</h4>
+<p style="margin-left: 40px; ">
+	Determines whether or not a future object has been cancelled</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+  bool future_is_cancelled(1:<a href="#future">Future</a> ff) throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>ff</em> -</td>
+			<td>
+				Reference to future object</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+<p style="margin-left: 40px; ">
+	<i>true</i> if future has been cancelled, <i>false</i> otherwise</p>
+<hr />
+<h4>
+	<a name="future_is_empty"></a>future_is_empty</h4>
+<p style="margin-left: 40px; ">
+	Determines whether or not a future object&#39;s result queue is empty. The future may have outstanding requests, but if none of them have completed, this method will return true.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+  bool future_is_empty(1: <a href="#future">Future</a> ff) throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>ff</em> -</td>
+			<td>
+				Reference to future object</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+<p style="margin-left: 40px; ">
+	<i>true</i> if future&#39;s result queue is empty, <i>false</i> otherwise</p>
+<hr />
+<h4>
+	<a name="future_is_full"></a>future_is_full</h4>
+<p style="margin-left: 40px; ">
+	Determines whether or not a future object has been filled to capacity and is therefore blocking</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+  bool future_is_full(1: <a href="#future">Future</a> ff) throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>ff</em> -</td>
+			<td>
+				Reference to future object</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+<p style="margin-left: 40px; ">
+	<i>true</i> if futue is filled to capacity, <i>false</i> otherwise</p>
+<hr />
+<p>
+	&nbsp;</p>
+<a name="convenience_apis">
+<h2>Convenience APIs</h2>
+<h4>
+	<a name="get_cell"></a>get_cell</h4>
+<p style="margin-left: 40px; ">
+	Fetches the most recent version of column</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+<a href="#value">Value</a> get_cell(1:<a href="#namespace">Namespace</a> ns, 2:string table_name, 3:string row, 4:string column)&#10;      throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ns</em> -</td>
+			<td>
+				Namespace identifier of namespace containing table from which to fetch cells</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>table_name</em> -</td>
+			<td>
+				Name of table from which to fetch cells</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>row</em> -</td>
+			<td>
+				Row containing cell to fetch</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>column</em> -</td>
+			<td>
+				Column containing cell to fetch</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+<p style="margin-left: 40px; ">
+	Cell contents</p>
+<hr />
+<h4>
+	<a name="get_cells"></a>get_cells</h4>
+<p style="margin-left: 40px; ">
+	Fetches cells from a table</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+list &lt; <a href="#cell">Cell</a> &gt; get_cells(1:<a href="#namespace">Namespace</a> ns, 2:string table_name, 3:<a href="#scanspec">ScanSpec</a> scan_spec)&#10;      throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ns</em> -</td>
+			<td>
+				Namespace identifier of namespace containing table from which to fetch cells</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>table_name</em> -</td>
+			<td>
+				Name of table from which to fetch cells</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>scan_spec</em> -</td>
+			<td>
+				<a href="#scanspec">ScanSpec</a> object representing query predicate. It defines what cells will be returned by the fetch</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+<p style="margin-left: 40px; ">
+	List of cells</p>
+<hr />
+<h4>
+	<a name="get_cells_as_arrays"></a>get_cells_as_arrays</h4>
+<p style="margin-left: 40px; ">
+	Fetches cells from a table. Similar to <a href="#get_cells">get_cells</a>, except that it returns a list of <a href="#cellasarray">CellAsArray</a> objects which are more efficient in languages (e.g. Ruby) where object creation overhead is very high.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+list &lt; <a href="#cellasarray">CellAsArray</a> &gt; get_cells_as_arrays(1:<a href="#namespace">Namespace</a> ns, 2:string table_name, 3:<a href="#scanspec">ScanSpec</a> scan_spec)&#10;      throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ns</em> -</td>
+			<td>
+				Namespace identifier of namespace containing table from which to fetch cells</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>table_name</em> -</td>
+			<td>
+				Name of table from which to fetch cells</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>scan_spec</em> -</td>
+			<td>
+				<a href="#scanspec">ScanSpec</a> object representing query predicate. It defines what cells will be returned by the fetch</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+<p style="margin-left: 40px; ">
+	List of cells</p>
+<hr />
+<h4>
+	<a name="get_cells_serialized"></a>get_cells_serialized</h4>
+<p style="margin-left: 40px; ">
+	Fetches cells from a table. Similar to <a href="#get_cells">get_cells</a>, except that it returns the list of cells in a <a href="#cellsserialized">CellsSerialized</a> object which is fairly efficient to encode and decode.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+<a href="#cellsserialized">CellsSerialized</a> get_cells_serialized(1:<a href="#namespace">Namespace</a> ns, 2:string name, 3:<a href="#scanspec">ScanSpec</a> scan_spec)&#10;      throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ns</em> -</td>
+			<td>
+				Namespace identifier of namespace containing table from which to fetch cells</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>table_name</em> -</td>
+			<td>
+				Name of table from which to fetch cells</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>scan_spec</em> -</td>
+			<td>
+				<a href="#scanspec">ScanSpec</a> object representing query predicate. It defines what cells will be returned by the fetch</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+<p style="margin-left: 40px; ">
+	List of cells</p>
+<hr />
+<h4>
+	<a name="get_row"></a>get_row</h4>
+<p style="margin-left: 40px; ">
+	Fetches a the latest version of cells from a row</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+list &lt; <a href="#cell">Cell</a> &gt; get_row(1:<a href="#namespace">Namespace</a> ns, 2:string table_name, 3:string row)&#10;    throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ns</em> -</td>
+			<td>
+				Namespace identifier of namespace containing table from which to fetch cells</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>table_name</em> -</td>
+			<td>
+				Name of table from which to fetch cells</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>row</em> -</td>
+			<td>
+				Row containing cells to fetch</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+<p style="margin-left: 40px; ">
+	List of cells</p>
+<hr />
+<h4>
+	<a name="get_row_as_arrays"></a>get_row_as_arrays</h4>
+<p style="margin-left: 40px; ">
+	Fetches a the latest version of cells from a row. Similar to get_rows, except that it returns a list of <a href="#cellasarray">CellAsArray</a> objects which are more efficient in languages (e.g. Ruby) where object creation overhead is very high.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+list &lt; <a href="#cellasarray">CellAsArray</a> &gt; get_row_as_arrays(1:<a href="#namespace">Namespace</a> ns, 2:string table_name,&#10;                                        3:string row) throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ns</em> -</td>
+			<td>
+				Namespace identifier of namespace containing table from which to fetch cells</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>table_name</em> -</td>
+			<td>
+				Name of table from which to fetch cells</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>row</em> -</td>
+			<td>
+				Row containing cells to fetch</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+<p style="margin-left: 40px; ">
+	List of cells</p>
+<hr />
+<h4>
+	<a name="get_row_serialized"></a>get_row_serialized</h4>
+<p style="margin-left: 40px; ">
+	Fetches a the latest version of cells from a row. Similar to <a href="#get_rows">get_rows</a>, except that it returns the list of cells in a <a href="#cellsserialized">CellsSerialized</a> object which is more efficient to encode and decode than Thrift serialization in languages such as Java and C++.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+<a href="#cellsserialized">CellsSerialized</a> get_row_serialized(1:<a href="#namespace">Namespace</a> ns, 2:string table_name,&#10;                                   3:string row) throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ns</em> -</td>
+			<td>
+				Namespace identifier of namespace containing table from which to fetch cells</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>table_name</em> -</td>
+			<td>
+				Name of table from which to fetch cells</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>row</em> -</td>
+			<td>
+				Row containing cells to fetch</td>
+		</tr>
+	</tbody>
+</table>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+<p style="margin-left: 40px; ">
+	List of cells</p>
+<hr />
+<h4>
+	<a name="set_cell"></a>set_cell</h4>
+<p style="margin-left: 40px; ">
+	Inserts a cell into a table</p>
+<p style="margin-left: 40px; ">
+	<em>Notes:</em> This method should not be used when inserting many cells into a table because it does no buffering.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+void set_cell(1:<a href="#namespace">Namespace</a> ns, 2:string table_name, 3:<a href="#cell">Cell</a> cell)&#10;    throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ns</em> -</td>
+			<td>
+				Namespace identifier of namespace containing table in which to insert cell</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>table_name</em> -</td>
+			<td>
+				Name of table in which to insert cell</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>cell</em> -</td>
+			<td>
+				<a href="#cell">Cell</a> object representing cell to insert</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="set_cell_as_array"></a>set_cell_as_array</h4>
+<p style="margin-left: 40px; ">
+	Inserts a cell into a table. Similar to set_cell except that it inserts a <a href="#cellasarray">CellAsArray</a> object which can be more efficient for languages (e.g. Ruby) where object construction overhead is large in comparison to native datatypes (e.g. string).</p>
+<p style="margin-left: 40px; ">
+	<em>Notes:</em> This method should not be used when inserting many cells into a table because it does no buffering.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+void set_cell(1:<a href="#namespace">Namespace</a> ns, 2:string table_name, 3:<a href="#cell">Cell</a> cell)&#10;    throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ns</em> -</td>
+			<td>
+				Namespace identifier of namespace containing table in which to insert cell</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>table_name</em> -</td>
+			<td>
+				Name of table in which to insert cell</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>cell</em> -</td>
+			<td>
+				Cell to insert</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="set_cells"></a>set_cells</h4>
+<p style="margin-left: 40px; ">
+	Inserts a list of cells into a table</p>
+<p style="margin-left: 40px; ">
+	<em>Notes:</em> This method should not be called repeatedly to insert many cells into a table because it does no buffering. Use the <code>mutator_</code> APIs instead.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+void set_cells(1:<a href="#namespace">Namespace</a> ns, 2:string table_name, 3:list &lt; <a href="#cell">Cell</a> &gt; cells)&#10;      throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ns</em> -</td>
+			<td>
+				Namespace identifier of namespace containing table in which to insert cells</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>table_name</em> -</td>
+			<td>
+				Name of table in which to insert cells</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>cells</em> -</td>
+			<td>
+				List of <a href="#cell">Cell</a> objects to insert</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="set_cells_as_arrays"></a>set_cells_as_arrays</h4>
+<p style="margin-left: 40px; ">
+	Inserts a list of cells into a table. Similar to set_cells except that it inserts a <a href="#cellasarray">CellAsArray</a> object which can be more efficient for languages (e.g. Ruby) where object construction overhead is large in comparison to native datatypes (e.g. string).</p>
+<p style="margin-left: 40px; ">
+	<em>Notes:</em> This method should not be called repeatedly to insert many cells into a table because it does no buffering. Use the <code>mutator_</code> APIs instead.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+void set_cells_as_arrays(1:<a href="#namespace">Namespace</a> ns, 2:string table_name,&#10;                         3:list &lt; <a href="#cellasarray">CellAsArray</a> &gt; cells) throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ns</em> -</td>
+			<td>
+				Namespace identifier of namespace containing table in which to insert cells</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>table_name</em> -</td>
+			<td>
+				Name of table in which to insert cells</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>cells</em> -</td>
+			<td>
+				List of <a href="#cellasarray">CellAsArray</a> objects to insert</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="set_cells_serialized"></a>set_cells_serialized</h4>
+<p style="margin-left: 40px; ">
+	Inserts a list of cells into a table. Similar to <a href="#set_cells">set_cells</a> except that it takes a list of cells represented by a <a href="#cellsserialized">CellsSerialized</a> object.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+void set_cells_serialized(1:<a href="#namespaace">Namespace</a> ns, 2:string table_name,&#10;                          3:<a href="#cellsserialized">CellsSerialized</a> cells) throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ns</em> -</td>
+			<td>
+				Namespace identifier of namespace containing table in which to insert cells</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>table_name</em> -</td>
+			<td>
+				Name of table in which to insert cells</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>cells</em> -</td>
+			<td>
+				List of cells to insert, in the form of a <a href="#cellsserialized">CellsSerialized</a> object</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="shared_mutator_refresh"></a>shared_mutator_refresh</h4>
+<p style="margin-left: 40px; ">
+	Creates a shared mutator from a given MutateSpec, deleting and recreating one if it already exists.</p>
+<p style="margin-left: 40px; ">
+	<strong>WARNING:</strong> Shared mutators sacrifice write durability guarantee because they buffer and flush mutations on a periodic time interval and the <code>set_</code> methods return without knowing if the mutations succeeded or failed.</p>
+<p style="margin-left: 40px; ">
+	<strong><span style="font-size:12px;"><b>DEFINITION</b></span></strong></p>
+<pre style="margin-left: 40px; ">
+void shared_mutator_refresh(1:<a href="#namespace">Namespace</a> ns, 2:string table_name,&#10;                            3:<a href="#mutatespec">MutateSpec</a> mutate_spec) throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<strong><span style="font-size:12px;"><b>PARAMETERS</b></span></strong></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>mutator</em> -</td>
+			<td>
+				Identifier of namespace containing table on which to create or refresh mutator</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>table_name</em> -</td>
+			<td>
+				Name of table on which to create or refresh mutator</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>mutate_spec</em> -</td>
+			<td>
+				Mutator specification object which includes information such as flush period and mutator flags</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="shared_mutator_set_cell"></a>shared_mutator_set_cell</h4>
+<p style="margin-left: 40px; ">
+	Mutates a table by writing a cell through a shared mutator, creating one if it does not exist. Shared mutators buffer data in memory and flush on a periodic time interval.</p>
+<p style="margin-left: 40px; ">
+	<strong>WARNING:</strong> This method sacrifices write durability guarantee because it adds the cell to the mutator&#39;s internal memory buffers without waiting for the operation to complete.</p>
+<p style="margin-left: 40px; ">
+	<strong><span style="font-size:12px;"><b>DEFINITION</b></span></strong></p>
+<pre style="margin-left: 40px; ">
+  void shared_mutator_set_cell(1:<a href="#namespace">Namespace</a> ns, 2:string table_name,&#10;                               3:<a href="#mutatespec">MutateSpec</a> mutate_spec, 4:<a href="#cell">Cell</a> cell)&#10;      throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<strong><span style="font-size:12px;"><b>PARAMETERS</b></span></strong></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>mutator</em> -</td>
+			<td>
+				Identifier of namespace containing table in which to insert cell</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>table_name</em> -</td>
+			<td>
+				Name of table in which to insert cell</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>mutate_spec</em> -</td>
+			<td>
+				Mutator specification object which includes information such as flush period and mutator flags</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>cell</em> -</td>
+			<td>
+				<a href="#cell">Cell</a> object to insert via mutator</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="shared_mutator_set_cell_as_array"></a>shared_mutator_set_cell_as_array</h4>
+<p style="margin-left: 40px; ">
+	Mutates a table by writing a cell through a shared mutator, creating one if it does not exist. Shared mutators buffer data in memory and flush on a periodic time interval. This method is similar to the <a href="#shared_mutator_set_cell">shared_mutator_set_cell</a> method except except that it inserts a <a href="#cellasarray">CellAsArray</a> object which can be more efficient for languages (e.g. Ruby) where object construction overhead is large in comparison to native datatypes (e.g. string).</p>
+<p style="margin-left: 40px; ">
+	<strong>WARNING:</strong> This method sacrifices write durability guarantee because it adds the cell to the mutator&#39;s internal memory buffers without waiting for the operation to complete.</p>
+<p style="margin-left: 40px; ">
+	<strong><span style="font-size:12px;"><b>DEFINITION</b></span></strong></p>
+<pre style="margin-left: 40px; ">
+  void shared_mutator_set_cell_as_array(1:<a href="#namespace">Namespace</a> ns, 2:string table_name, 3:<a href="#mutatespec">MutateSpec</a> mutate_spec, 4:<a href="#cellasarray">CellAsArray</a> cell)&#10;      throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<strong><span style="font-size:12px;"><b>PARAMETERS</b></span></strong></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>mutator</em> -</td>
+			<td>
+				Identifier of namespace containing table in which to insert cell</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>table_name</em> -</td>
+			<td>
+				Name of table in which to insert cell</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>mutate_spec</em> -</td>
+			<td>
+				Mutator specification object which includes information such as flush period and mutator flags</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>cell</em> -</td>
+			<td>
+				<a href="#cellasarray">CellAsArray</a> object to insert via mutator</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="shared_mutator_set_cells"></a>shared_mutator_set_cells</h4>
+<p style="margin-left: 40px; ">
+	Mutates a table by writing a list of cells through a shared mutator, creating one if it does not exist. Shared mutators buffer data in memory and flush on a periodic time interval.</p>
+<p style="margin-left: 40px; ">
+	<strong>WARNING:</strong> This method sacrifices write durability guarantee because it adds the cells to the mutator&#39;s internal memory buffers without waiting for the operation to complete.</p>
+<p style="margin-left: 40px; ">
+	<strong><span style="font-size:12px;"><b>DEFINITION</b></span></strong></p>
+<pre style="margin-left: 40px; ">
+  void shared_mutator_set_cells(1:<a href="#namespace">Namespace</a> ns, 2:string table_name, 3:<a href="#mutatespec">MutateSpec</a> mutate_spec, 4:list &lt; <a href="#cell">Cell</a> &gt; cell)&#10;      throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<strong><span style="font-size:12px;"><b>PARAMETERS</b></span></strong></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>mutator</em> -</td>
+			<td>
+				Identifier of namespace containing table in which to insert cells</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>table_name</em> -</td>
+			<td>
+				Name of table in which to insert cells</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>mutate_spec</em> -</td>
+			<td>
+				Mutator specification object which includes information such as flush period and mutator flags</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>cells</em> -</td>
+			<td>
+				List of <a href="#cell">Cell</a> objects to insert via mutator</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="shared_mutator_set_cells_as_arrays"></a>shared_mutator_set_cells_as_arrays</h4>
+<p style="margin-left: 40px; ">
+	Mutates a table by writing a list of cells through a shared mutator, creating one if it does not exist. Shared mutators buffer data in memory and flush on a periodic time interval. This method is similar to the <a href="#shared_mutator_set_cells">shared_mutator_set_cells</a> method except except that it inserts a list of <a href="#cellasarray">CellAsArray</a> objects which can be more efficient for languages (e.g. Ruby) where object construction overhead is large in comparison to native datatypes (e.g. string).</p>
+<p style="margin-left: 40px; ">
+	<strong>WARNING:</strong> This method sacrifices write durability guarantee because it adds the cells to the mutator&#39;s internal memory buffers without waiting for the operation to complete.</p>
+<p style="margin-left: 40px; ">
+	<strong><span style="font-size:12px;"><b>DEFINITION</b></span></strong></p>
+<pre style="margin-left: 40px; ">
+  void shared_mutator_set_cells_as_arrays(1:<a href="#namespace">Namespace</a> ns, 2:string table_name, 3:<a href="#mutatespec">MutateSpec</a> mutate_spec, 4:list &lt; <a href="#cellasarray">CellAsArray</a> &gt; cell)&#10;      throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+	<strong><span style="font-size:12px;"><b>PARAMETERS</b></span></strong></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>mutator</em> -</td>
+			<td>
+				Identifier of namespace containing table in which to insert cells</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>table_name</em> -</td>
+			<td>
+				Name of table in which to insert cells</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>mutate_spec</em> -</td>
+			<td>
+				Mutator specification object which includes information such as flush period and mutator flags</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>cells</em> -</td>
+			<td>
+				List of <a href="#cellasarray">CellAsArray</a> objects to insert via mutator</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<p>
+	&nbsp;</p>
+<a name="datatypes">
+<h2>Datatypes</h2>
+<h4>
+	<a name="accessgroup"></a>AccessGroup</h4>
+<p style="margin-left: 40px; ">
+	This structure is a member of the <a href="#schema">Schema</a> structure and describes a table access group.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre class="brush:plain;" style="margin-left: 40px; ">
+struct AccessGroup &#123;&#10;  1: optional string name&#10;  2: optional bool in_memory&#10;  3: optional i16 replication&#10;  4: optional i32 blocksize&#10;  5: optional string compressor&#10;  6: optional string bloom_filter&#10;  7: optional list &lt; <a href="#columnfamily">ColumnFamily</a> &gt; columns&#10;&#125;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>FIELDS</b></span></p>
+<table border="0" cellpadding="4" cellspacing="4" style="width: 720px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>name</em> -</td>
+			<td>
+				Name of the access group</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>in_memory</em> -</td>
+			<td>
+				Boolean flag indicating if the access group should be pinned in memory</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>replication</em> -</td>
+			<td>
+				The replication factor for CellStores in this access group</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>blocksize</em> -</td>
+			<td>
+				The blocksize for CellStores in this access group</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>compressor</em> -</td>
+			<td>
+				The compressor used to compress CellStore blocks in this access group</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>bloom_filter</em> -</td>
+			<td>
+				The bloom filter options that apply to CellStores in this access group</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>columns</em> -</td>
+			<td>
+				List of <a href="#columnfamily">ColumnFamily</a> objects that define the column families that belong to this access group</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="cell"></a>Cell</h4>
+<p style="margin-left: 40px; ">
+	This structure is used to represent a cell. &nbsp;It has two members, the key and the value.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>DEFINITION</strong></span></p>
+<pre style="margin-left: 40px; ">
+struct Cell &#123;&#10;  1: <a href="#key">Key</a> key&#10;  2: optional <a href="#value">Value</a> value&#10;&#125;&#10;</pre>
+<p style="margin-left: 40px; ">
+	<strong>FIELDS</strong></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>key</em> -</td>
+			<td>
+				the complete key</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>value</em> -</td>
+			<td>
+				the value</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="cellasarray"></a>CellAsArray</h4>
+<p style="margin-left: 40px; ">
+	This typedef is an alternative <a href="#cell">Cell</a> interface for languages (e.g., Ruby) where user defined objects are much more expensive to create than builtin primitives. &nbsp;The base type is a list of strings and the cell members flattened into the list as follows: &nbsp;[&quot;row_key&quot;, &quot;column_family&quot;, &quot;column_qualifier&quot;, &quot;value&quot;, &quot;timestamp&quot;]</p>
+<p style="margin-left: 40px; ">
+	Note, revision and cell flag are not returned for the array interface.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>DEFINITION</strong></span></p>
+<pre class="brush:java;" style="margin-left: 40px; ">
+typedef list &lt; string &gt; CellAsArray</pre>
+<hr />
+<h4>
+	<a name="cellinterval"></a>CellInterval</h4>
+<p style="margin-left: 40px; ">
+	This structure is part of a scan query predicate (<a href="#scanspec">ScanSpec</a>) and can be used to efficiently retrieve cells over column qualifier ranges. &nbsp;It is typically used to select ranges of cells in a specific column family of a single row, where the column family contains a very large number of qualified instances (e.g., millions).</p>
+<p style="margin-left: 40px; ">
+	<em>Additional Notes:</em>&nbsp; While you can specify a cell interval that spans multiple column families, it is inadvisable because the results are somewhat undefined. &nbsp;Column families are implicitly assigned a numeric ID which is what&#39;s stored in the key and the ID is what&#39;s used for comparison purposes. &nbsp;For example, the following cell interval,</p>
+<pre class="brush:java;" style="margin-left: 40px; ">
+&quot;row&quot;,&quot;bar:good&quot; &lt; CELL &lt;= &quot;row&quot;,foo:good&quot;</pre>
+<p style="margin-left: 40px; ">
+	could be invalid if the numeric ID for column family <em>foo</em> is 1 and the numeric ID for column family <em>bar</em> is 2, which would make <code>&quot;row&quot;,foo:good&quot;</code> come before&nbsp;<code>&quot;row&quot;,&quot;bar:good&quot;</code> in the table.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>DEFINITION</strong></span></p>
+<pre class="brush:java;" style="margin-left: 40px; ">
+struct CellInterval &#123;&#10;  1: optional string start_row&#10;  2: optional string start_column&#10;  3: optional bool start_inclusive = 1&#10;  4: optional string end_row&#10;  5: optional string end_column&#10;  6: optional bool end_inclusive = 1&#10;&#125;&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>FIELDS</strong></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>start_row</em> -</td>
+			<td>
+				Start row of the interval</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>start_column</em> -</td>
+			<td>
+				Start column of the interval, specified as <em>family:qualifier</em></td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>start_inclusive</em> -</td>
+			<td>
+				Indicates if the start cell should be included in the results</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>end_row</em> -</td>
+			<td>
+				End row of the interval</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>end_column</em> -</td>
+			<td>
+				End column of the interval, specified as <em>family:qualifier</em></td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>end_inclusive</em> -</td>
+			<td>
+				Indicates if the end cell should be included in the results</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="cellsserialized"></a>CellsSerialized</h4>
+<p style="margin-left: 40px; ">
+	This type is an array of bytes that represents a binary, serialized array of cells</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>DEFINITION</strong></span></p>
+<pre class="brush:cpp;" style="margin-left: 40px; ">
+typedef binary CellsSerialized&#10;</pre>
+<hr />
+<h4>
+	<a name="clientexception"></a>ClientException</h4>
+<p style="margin-left: 40px; ">
+	This is the exception class that is thrown by most of the Thrift client APIs in the event of an error.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>DEFINITION</strong></span></p>
+<pre class="brush:java;" style="margin-left: 40px; ">
+exception ClientException &#123;&#10;  1: i32 code&#10;  2: string message&#10;&#125;&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>FIELDS</strong></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px;  ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>code</em> -</td>
+			<td>
+				Hypertable error code (see <a href="http://stage.hypertable.com/index.php/documentation/reference_manual/error_codes/">Error Codes</a>)</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>message</em> -</td>
+			<td>
+				String message describing the error</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="columnfamily"></a>ColumnFamily</h4>
+<p style="margin-left: 40px; ">
+	This structure is a member of the <a href="#schema">Schema</a> structure and describes a table column family.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>DEFINITION</strong></span></p>
+<pre class="brush:plain;" style="margin-left: 40px; ">
+struct ColumnFamily &#123;&#10;  1: optional string name&#10;  2: optional string ag&#10;  3: optional i32 max_versions&#10;  4: optional string ttl&#10;&#125;&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>MEMBERS</strong></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>name</em> -</td>
+			<td>
+				Name of the column family</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ag</em> -</td>
+			<td>
+				Name of the access group to which it belongs</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>max_versions</em> -</td>
+			<td>
+				Maximum number of cell versions to keep for this column family (0 means keep all versions)</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>ttl</em> -</td>
+			<td>
+				Time to live value for column family. &nbsp;Automatically delete cells that are older than this value</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="future"></a>Future</h4>
+<p style="margin-left: 40px; ">
+	Opaque identifier for Future object. Future objects are used with the asynchronous APIs as a rendezvous point to collect the results of the asynchronous operations.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>DEFINITION</strong></span></p>
+<pre class="brush:plain;" style="margin-left: 40px; ">
+typedef i64 Future&#10;</pre>
+<hr />
+<h4>
+	<a name="hqlresult"></a>HqlResult</h4>
+<p style="margin-left: 40px; ">
+	This structure holds the result of an HQL query.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre class="brush:plain;" style="margin-left: 40px; ">
+struct HqlResult &#123;&#10;  1: optional list&lt; string &gt; results,&#10;  2: optional list&lt; <a href="#cell">Cell</a> &gt; cells,&#10;  3: optional i64 scanner,&#10;  4: optional i64 mutator&#10;&#125;&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>FIELDS</b></span></p>
+<table border="0" cellpadding="4" cellspacing="4" style="width: 720px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>results</em> -</td>
+			<td>
+				String results from meta data queries</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>cells</em> -</td>
+			<td>
+				Resulting table cells of for buffered queries</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>scanner</em> -</td>
+			<td>
+				Resulting scanner ID for unbuffered queries</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>mutator</em> -</td>
+			<td>
+				Resulting mutator ID for unflushed modifying queries</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="hqlresultasarrays"></a>HqlResultAsArrays</h4>
+<p style="margin-left: 40px; ">
+	This structure holds the result of an HQL query. It is the same as <a href="#hqlresult">HqlResult</a> except that the cell is contains <a href="#cellasarray">CellAsArray</a> structures</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre class="brush:plain;" style="margin-left: 40px; ">
+struct HqlResultAsArrays &#123;&#10;  1: optional list&lt; string &gt; results,&#10;  2: optional list&lt; <a href="#cellasarray">CellAsArray</a> &gt; cells,&#10;  3: optional i64 scanner,&#10;  4: optional i64 mutator&#10;&#125;</pre>
+<h4>
+	<a name="key"></a>Key</h4>
+<p style="margin-left: 40px; ">
+	This structure is a member of the <a href="#cell">Cell</a> structure and defines the complete key for the cell.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>DEFINITION</strong></span></p>
+<pre class="brush:plain;" style="margin-left: 40px; ">
+struct Key &#123;&#10;  1: string row&#10;  2: string column_family&#10;  3: string column_qualifier&#10;  4: optional i64 timestamp&#10;  5: optional i64 revision&#10;  6: <a href="#keyflag">KeyFlag</a> flag = KeyFlag.INSERT&#10;&#125;&#10;</pre>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>row</em> -</td>
+			<td>
+				Row key</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>column_family</em> -</td>
+			<td>
+				Column family name</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>column_qualifier</em>-</td>
+			<td>
+				Column qualifier</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>timestamp</em> -</td>
+			<td>
+				Timestamp</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>revision</em> -</td>
+			<td>
+				Revision number for the cell (currently internal use only)</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>flag</em> -</td>
+			<td>
+				Flag field of type <a href="#keyflag">KeyFlag</a>, indicating type of cell (insert, delete, etc.)</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="keyflag"></a>KeyFlag</h4>
+<p style="margin-left: 40px; ">
+	This enumeration type is a member of the <a href="#key">Key</a> structure and is used to indicate what type of record the cell represents (insert, delete, etc.)</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>DEFINITION</strong></span></p>
+<pre class="brush:plain;" style="margin-left: 40px; ">
+enum KeyFlag &#123;&#10;  DELETE_ROW = 0,&#10;  DELETE_CF = 1,&#10;  DELETE_CELL = 2,&#10;  DELETE_CELL_VERSION = 3,&#10;  INSERT = 255&#10;&#125;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>MEMBERS</strong></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>DELETE_ROW</em> -</td>
+			<td>
+				Delete all cells of a specific row</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>DELETE_CF</em> -</td>
+			<td>
+				Delete all cells in the given column family of a specific row</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>DELETE_CELL</em> -</td>
+			<td>
+				Delete all cells of a specific qualified column of a row with the given timestamp or older</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>DELETE_CELL_VERSION</em> -</td>
+			<td>
+				Delete the exact cell that matches the column family, qualifier, and timestamp</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>INSERT</em> -</td>
+			<td>
+				Insert cell</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="mutatespec"></a>MutateSpec</h4>
+<p style="margin-left: 40px; ">
+	Mutator specification used for shared, periodic mutators (<code>offer_</code> APIs).</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>DEFINITION</strong></span></p>
+<pre class="brush:plain;" style="margin-left: 40px; ">
+struct MutateSpec &#123;&#10;  1: required string appname = &quot;&quot;&#10;  2: required i32 flush_interval = 1000&#10;  3: required i32 flags = MutatorFlag.IGNORE_UNKNOWN_CFS&#10;&#125;&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>FIELDS</strong></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>appname</em> -</td>
+			<td>
+				Name used to identify a shared, periodic mutator</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>flush_interval</em> -</td>
+			<td>
+				Flush interval for shared, periodic mutator</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>flags</em> -</td>
+			<td>
+				Flags passed to constructor of shared, periodic mutator</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="mutator"></a>Mutator</h4>
+<p style="margin-left: 40px; ">
+	Opaque identifier for table mutator, returned by <a href="#mutator_open">mutator_open</a>. &nbsp;The mutator APIs are recommended for injecting large amounts of data into a table.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>DEFINITION</strong></span></p>
+<pre class="brush:cpp;" style="margin-left: 40px; ">
+typedef i64 Mutator&#10;</pre>
+<hr />
+<h4>
+	<a name="mutatorasync"></a>MutatorAsync</h4>
+<p style="margin-left: 40px; ">
+	Opaque identifier for an asynchronous table mutator, returned by <a href="#async_mutator_open">async_mutator_open</a>. &nbsp;The asynchronous mutator APIs are recommended for for situations where you need to update multiple tables in parallel.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>DEFINITION</strong></span></p>
+<pre class="brush:cpp;" style="margin-left: 40px; ">
+typedef i64 MutatorAsync&#10;</pre>
+<hr />
+<h4>
+	<a name="mutatorflag"></a>MutatorFlag</h4>
+<p style="margin-left: 40px; ">
+	This enumeration type defines the constants that can be passed into the <a href="#mutator_open">mutator_open</a> APIs for the <i>flags</i> argument.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>DEFINITION</strong></span></p>
+<pre class="brush:plain;" style="margin-left: 40px; ">
+enum MutatorFlag &#123;&#10;  NO_LOG_SYNC = 1,&#10;  IGNORE_UNKNOWN_CFS = 2&#10;&#125;&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>CONSTANTS</strong></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="margin-left: 40px; width: 680px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>NO_LOG_SYNC</em> -</td>
+			<td>
+				This flag causes the mutator to trade off durability for performance, by not calling <code>sync()</code> on the commit log after each write. Use of this flag should be avoided, but there are some (older) filesystems that can&#39;t keep up with Hypertable request load can fail due to the heavy demands put on it. This flag can help eliminate these failures.</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>IGNORE_UNKNOWN_CFS</em> -</td>
+			<td>
+				Ignore unknown column families. There are some situations where you would like to load a <code>.tsv</code> file that contains column data for a column that has been deleted. Normally, the mutator will generate an error in this circumstance. This flag tells the mutator to silently skip unknown column data.</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="namespace"></a>Namespace</h4>
+<p style="margin-left: 40px; ">
+	Opaque identifier for namespace, returned by <a href="#namespace_open">namespace_open</a>.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>DEFINITION</strong></span></p>
+<pre class="brush:plain;" style="margin-left: 40px; ">
+typedef i64 Namespace&#10;</pre>
+<hr />
+<h4>
+	<a name="namespacelisting"></a>NamespaceListing</h4>
+<p style="margin-left: 40px; ">
+	This structure is used to represent an entry in a namespace listing. A list of these objects are returned by namespace_get_listing.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>DEFINITION</strong></span></p>
+<pre style="margin-left: 40px; ">
+struct NamespaceListing &#123;&#10;  1: required string name&#10;  2: required bool is_namespace&#10;&#125;&#10;</pre>
+<p style="margin-left: 40px; ">
+	<strong>FIELDS</strong></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>name</em> -</td>
+			<td>
+				The name of the entry</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>is_namespace</em> -</td>
+			<td>
+				Boolean flag to indicate if the entry is a namespace or table</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="result"></a>Result</h4>
+<p style="margin-left: 40px; ">
+	This structure holds the result of an asynchronous request.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>DEFINITION</strong></span></p>
+<pre class="brush:plain;" style="margin-left: 40px; ">
+struct Result &#123;&#10;  1: required bool is_empty&#10;  2: required i64 id&#10;  3: required bool is_scan&#10;  4: required bool is_error&#10;  5: optional i32 error&#10;  6: optional string error_msg&#10;  7: optional list &lt; <a href="#cell">Cell</a> &gt; cells&#10;&#125;&#10;</pre>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>is_empty</em> -</td>
+			<td>
+				Indicates whether or not this object contains a result</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>id</em> -</td>
+			<td>
+				Scanner or mutator identifier to which these results pertain</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>is_scan</em>-</td>
+			<td>
+				Indicates whether this result is from an asynchronous scan or update</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>is_error</em> -</td>
+			<td>
+				Indicates whether or not the async request was successful</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>error</em> -</td>
+			<td>
+				Error code</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>error_msg</em> -</td>
+			<td>
+				Error message</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>cells</em> -</td>
+			<td>
+				Query result (list of <a href="#cell">Cell</a> objects) from an asynchronous scan.</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="resultasarrays"></a>ResultAsArrays</h4>
+<p style="margin-left: 40px; ">
+	This structure holds the result of an asynchronous request. It differs from the Result structure in that the list of cells is returned as a list of CellsAsArray objects</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>DEFINITION</strong></span></p>
+<pre class="brush:plain;" style="margin-left: 40px; ">
+struct ResultAsArrays &#123;&#10;  1: required bool is_empty&#10;  2: required i64 id&#10;  3: required bool is_scan&#10;  4: required bool is_error&#10;  5: optional i32 error&#10;  6: optional string error_msg&#10;  7: optional list &lt; <a href="#cellasarray">CellAsArray</a> &gt; cells&#10;&#125;&#10;</pre>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>is_empty</em> -</td>
+			<td>
+				Indicates whether or not this object contains a result</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>id</em> -</td>
+			<td>
+				Scanner or mutator identifier to which these results pertain</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>is_scan</em>-</td>
+			<td>
+				Indicates whether this result is from an asynchronous scan or update</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>is_error</em> -</td>
+			<td>
+				Indicates whether or not the async request was successful</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>error</em> -</td>
+			<td>
+				Error code</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>error_msg</em> -</td>
+			<td>
+				Error message</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>cells</em> -</td>
+			<td>
+				Query result from an asynchronous scan.</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="resultserialized"></a>ResultSerialized</h4>
+<p style="margin-left: 40px; ">
+	This structure holds the result of an asynchronous request. It differs from the Result structure in that the list of cells is returned as a CellsSerialized object</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>DEFINITION</strong></span></p>
+<pre class="brush:plain;" style="margin-left: 40px; ">
+struct ResultSerialized &#123;&#10;  1: required bool is_empty&#10;  2: required i64 id&#10;  3: required bool is_scan&#10;  4: required bool is_error&#10;  5: optional i32 error&#10;  6: optional string error_msg&#10;  7: optional CellsSerialized cells&#10;&#125;&#10;</pre>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>is_empty</em> -</td>
+			<td>
+				Indicates whether or not this object contains a result</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>id</em> -</td>
+			<td>
+				Scanner or mutator identifier to which these results pertain</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>is_scan</em>-</td>
+			<td>
+				Indicates whether this result is from an asynchronous scan or update</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>is_error</em> -</td>
+			<td>
+				Indicates whether or not the async request was successful</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>error</em> -</td>
+			<td>
+				Error code</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>error_msg</em> -</td>
+			<td>
+				Error message</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>cells</em> -</td>
+			<td>
+				Query result from an asynchronous scan.</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="rowinterval"></a>RowInterval</h4>
+<p style="margin-left: 40px; ">
+	The query predicate structure (ScanSpec) contains a list of RowInterval structures. They allow for efficient retrieval of row ranges of table data.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>DEFINITION</strong></span></p>
+<pre class="brush:java;" style="margin-left: 40px; ">
+struct RowInterval &#123;&#10;  1: optional string start_row&#10;  2: optional bool start_inclusive = 1&#10;  3: optional string end_row&#10;  4: optional bool end_inclusive = 1&#10;&#125;&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>FIELDS</strong></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="text-align: right; ">
+				<em>start_row</em> -</td>
+			<td>
+				Start row of the interval</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>start_inclusive</em> -</td>
+			<td>
+				Indicates if the start row should be included in the results</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>end_row</em> -</td>
+			<td>
+				End row of the interval</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>end_inclusive</em> -</td>
+			<td>
+				Indicates if the end row should be included in the results</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="scanspec"></a>ScanSpec</h4>
+<p style="margin-left: 40px; ">
+	This structure represents a query predicate and controls what cells are returned from a scan.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>DEFINITION</strong></span></p>
+<pre class="brush:plain;" style="margin-left: 40px; ">
+struct ScanSpec &#123;&#10;  1: optional list<rowinterval> row_intervals&#10;  2: optional list<cellinterval> cell_intervals&#10;  3: optional bool return_deletes = 0&#10;  4: optional i32 revs = 0&#10;  5: optional i32 row_limit = 0&#10;  6: optional i64 start_time&#10;  7: optional i64 end_time&#10;  8: optional list<string> columns&#10;  9: optional bool keys_only = 0&#10;  14:optional i32 cell_limit = 0&#10;  10:optional i32 cell_limit_per_family = 0&#10;  11:optional string row_regexp&#10;  12:optional string value_regexp&#10;  13:optional bool scan_and_filter_rows = 0&#10;  15:optional i32 row_offset = 0&#10;  16:optional i32 cell_offset = 0&#10;&#125;&#10;</string></cellinterval></rowinterval></pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>FIELDS</strong></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="margin-left: 40px; width: 680px; ">
+	<tbody>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>row_intervals</em> -</td>
+			<td>
+				A list of row ranges to return (mutually exclusive with cell_interval)</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>cell_intervals</em> -</td>
+			<td>
+				A list of cell ranges to return (mutually exclusive with row_interval)</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>return_deletes</em> -</td>
+			<td>
+				Return delete records (for testing only)</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>versions</em> -</td>
+			<td>
+				Number of versions of each cell to return. Versions are stored in reverse-chronological order, so specifying versions=1 will return the latest version of each cell.</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>row_limit</em> -</td>
+			<td>
+				Limits the number of rows to return. Result paging can be implemented by using this option with the <em>row_offset</em> option. &nbsp;This option applies independently to each row or cell interval.</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>start_time</em> -</td>
+			<td>
+				Return only cells whos timestamp is greater than or equal to this time (nanoseconds since the epoch).</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>end_time</em> -</td>
+			<td>
+				Return only cells whos timestamp is less than this time (nanoseconds since the epoch).</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>columns</em> -</td>
+			<td>
+				List of columns from which to return cells. Column names can be specified as just the column family name, or can be fully qualified as <i>family:qualifier</i>.</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>keys_only</em> -</td>
+			<td>
+				Only return keys, not values</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>cell_limit</em> -</td>
+			<td>
+				Maximum number of cells to return. This can be used in conjunction with cell_offset to implement result paging. This option applies independently to each cell or row interval.</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>cell_limit_per_family</em> -</td>
+			<td>
+				Limits the number of cells to return, per column family</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>row_regexp</em> -</td>
+			<td>
+				Regular expression used to filter row keys.</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>value_regexp</em> -</td>
+			<td>
+				Regular expression used to filter values.</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>scan_and_filter_rows</em> -</td>
+			<td>
+				This is an explicit optimization for the case where you&#39;re querying for a very large number of row intervals (e.g. 10,000+). Instead of fetching each row interval independently, this option will cause the system to do a full table scan and filter the results to find the rows that are desired. &nbsp;Use this option with caution, it can be extremely inefficient for smaller number of row intervals.</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>row_offset</em> -</td>
+			<td>
+				This option provides a way to skip the first rows that would otherwise be returned by the query. It can be used in conjunction with row_limit to implement result paging. This option applies independently to each row or cell interval.</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; ">
+				<em>cell_offset</em> -</td>
+			<td>
+				This option provides a way to skip the first cells that would otherwise be returned by the query. It can be used in conjunction with row_limit to implement result paging. This option applies independently to each row or cell interval.</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="scanner"></a>Scanner</h4>
+<p style="margin-left: 40px; ">
+	Opaque identifier for table scanner, returned by scanner_open. &nbsp;The scanner APIs are recommended for querying large amounts of data from a table.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>DEFINITION</strong></span></p>
+<pre class="brush:cpp;" style="margin-left: 40px; ">
+typedef i64 Scanner&#10;</pre>
+<hr />
+<h4>
+	<a name="scannerasync"></a>ScannerAsync</h4>
+<p style="margin-left: 40px; ">
+	Opaque identifier for an asynchronous table scanner, returned by <a href="#async_scanner_open">async_scanner_open</a>. &nbsp;The asynchronous scanner APIs are recommended for for situations where you need to query multiple tables in parallel.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>DEFINITION</strong></span></p>
+<pre class="brush:cpp;" style="margin-left: 40px; ">
+typedef i64 ScannerAsync&#10;</pre>
+<hr />
+<h4>
+	<a name="schema"></a>Schema</h4>
+<p style="margin-left: 40px; ">
+	This structure represents a table schema definition and is returned by table_get_schema.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>DEFINITION</strong></span></p>
+<pre class="brush:plain;" style="margin-left: 40px; ">
+struct Schema &#123;&#10;  1: optional map<string, accessgroup=""> access_groups&#10;  2: optional map<string, columnfamily=""> column_families&#10;&#125;&#10;</string,></string,></pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>FIELDS</strong></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>access_groups</em> -</td>
+			<td>
+				List of AccessGroup objects that specify the access groups that are part of the table definition</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>column_families</em> -</td>
+			<td>
+				List of ColumnFamily objects that specify the column families that are part of the table definition</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="tablesplit"></a>TableSplit</h4>
+<p style="margin-left: 40px; ">
+	This structure represents a table split, which contains information about a Range and its location, and is used by the MapReduce framework to logically split a table into pieces for the map phase.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>DEFINITION</strong></span></p>
+<pre class="brush:plain;" style="margin-left: 40px; ">
+struct TableSplit &#123;&#10;  1: optional string start_row&#10;  2: optional string end_row&#10;  3: optional string location&#10;  4: optional string ip_address&#10;  5: optional string hostname&#10;&#125;&#10;</pre>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>FIELDS</strong></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+	<tbody>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>start_row</em> -</td>
+			<td>
+				Start row of the split</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>end_row</em> -</td>
+			<td>
+				End row of the split</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>location</em> -</td>
+			<td>
+				Proxy name of RangeServer managing this range</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>ip_address</em> -</td>
+			<td>
+				IP address of RangeServer managing this range</td>
+		</tr>
+		<tr>
+			<td style="white-space: nowrap; text-align: right; ">
+				<em>hostname</em> -</td>
+			<td>
+				Hostname of RangeServer managing this range</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<h4>
+	<a name="value"></a>Value</h4>
+<p style="margin-left: 40px; ">
+	This type is used to represent a cell value.</p>
+<p style="margin-left: 40px; ">
+	<span style="font-size:12px;"><strong>DEFINITION</strong></span></p>
+<pre class="brush:plain;" style="margin-left: 40px; ">
+typedef binary Value</pre>
+<hr />
+<p>
+	&nbsp;</p>
+
+</body>
+</html>
