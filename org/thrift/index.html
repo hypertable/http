@@ -1399,80 +1399,100 @@ void mutator_set_cells_as_arrays(1:<a href="#mutator">Mutator</a> mutator, 2:lis
 	</tbody>
 </table>
 <hr />
+
 <h4>
-	<a name="future_get_result"></a>future_get_result</h4>
+  <a name="future_get_result"></a>future_get_result</h4>
 <p style="margin-left: 40px; ">
-	Fetches next asynchronous result object</p>
+  Fetches next asynchronous result object</p>
 <p style="margin-left: 40px; ">
-	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+  <span style="font-size:12px;"><b>DEFINITION</b></span></p>
 <pre style="margin-left: 40px; ">
-  <a href="#result">Result</a> future_get_result(1:<a href="#future">Future</a> ff) throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+  <a href="#result">Result</a> future_get_result(1:<a href="#future">Future</a> ff, 2:i32 timeout_millis) throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
 <p style="margin-left: 40px; ">
-	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+  <span style="font-size:12px;"><b>PARAMETERS</b></span></p>
 <table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
-	<tbody>
-		<tr>
-			<td style="white-space: nowrap; text-align: right; ">
-				<em>ff</em> -</td>
-			<td>
-				Reference to future object</td>
-		</tr>
-	</tbody>
+  <tbody>
+    <tr>
+      <td style="white-space: nowrap; text-align: right; ">
+        <em>ff</em> -</td>
+      <td>
+        Reference to future object</td>
+      </tr>
+    <tr>
+      <td style="white-space: nowrap; text-align: right; ">
+        <em>timeout_millis</em> -</td>
+      <td>
+        If results have not arrived within this amount of time, throw an exception</td>
+      </tr>
+
+    </tbody>
 </table>
 <p style="margin-left: 40px; ">
-	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+  <span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
 <p style="margin-left: 40px; ">
-	Result object for next completed asynchronous operation</p>
+  Result object for next completed asynchronous operation</p>
 <hr />
 <h4>
-	<a name="future_get_result_as_arrays"></a>future_get_result_as_arrays</h4>
+  <a name="future_get_result_as_arrays"></a>future_get_result_as_arrays</h4>
 <p style="margin-left: 40px; ">
-	Fetches next asynchronous result object. Similar to future_get_result except that it returns a <a href="#resultasarrays">ResultAsArrays</a> object which contains a list of <a href="#cellasarrays">CellAsArrays</a> member for scan results which can be more efficient for languages (e.g. Ruby) where object construction overhead is large in comparison to native datatypes (e.g. string).</p>
+  Fetches next asynchronous result object. Similar to future_get_result except that it returns a <a href="#resultasarrays">ResultAsArrays</a> object which contains a list of <a href="#cellasarrays">CellAsArrays</a> member for scan results which can be more efficient for languages (e.g. Ruby) where object construction overhead is large in comparison to native datatypes (e.g. string).</p>
 <p style="margin-left: 40px; ">
-	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+  <span style="font-size:12px;"><b>DEFINITION</b></span></p>
 <pre style="margin-left: 40px; ">
-  <a href="#resultasarrays">ResultAsArrays</a> future_get_result_as_arrays(1:<a href="#future">Future</a> ff)&#10;    throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+  <a href="#resultasarrays">ResultAsArrays</a> future_get_result_as_arrays(1:<a href="#future">Future</a> ff, 2:i32 timeout_millis)&#10;    throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
 <p style="margin-left: 40px; ">
-	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+  <span style="font-size:12px;"><b>PARAMETERS</b></span></p>
 <table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
-	<tbody>
-		<tr>
-			<td style="white-space: nowrap; text-align: right; ">
-				<em>ff</em> -</td>
-			<td>
-				Reference to future object</td>
-		</tr>
-	</tbody>
+  <tbody>
+    <tr>
+      <td style="white-space: nowrap; text-align: right; ">
+        <em>ff</em> -</td>
+      <td>
+        Reference to future object</td>
+      </tr>
+    <tr>
+      <td style="white-space: nowrap; text-align: right; ">
+        <em>timeout_millis</em> -</td>
+      <td>
+        If results have not arrived within this amount of time, throw an exception</td>
+      </tr>
+    </tbody>
 </table>
 <p style="margin-left: 40px; ">
-	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+  <span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
 <p style="margin-left: 40px; ">
-	<a href="#resultasarrays">ResultAsArrays</a> object for next completed asynchronous operation</p>
+  <a href="#resultasarrays">ResultAsArrays</a> object for next completed asynchronous operation</p>
 <hr />
 <h4>
-	<a name="future_get_result_serialized"></a>future_get_result_serialized</h4>
+  <a name="future_get_result_serialized"></a>future_get_result_serialized</h4>
 <p style="margin-left: 40px; ">
-	Fetches next asynchronous result object. Similar to <a href="#future_get_result">future_get_result</a> except that it returns a <a href="#resultserialized">ResultSerialized</a> object which contains a <a href="#cellsserialized">CellsSerialized</a> member for scan results. Encoding and decoding cells to/from the CellsSerialized object is more efficient in languages such as Java and C++.</p>
+  Fetches next asynchronous result object. Similar to <a href="#future_get_result">future_get_result</a> except that it returns a <a href="#resultserialized">ResultSerialized</a> object which contains a <a href="#cellsserialized">CellsSerialized</a> member for scan results. Encoding and decoding cells to/from the CellsSerialized object is more efficient in languages such as Java and C++.</p>
 <p style="margin-left: 40px; ">
-	<span style="font-size:12px;"><b>DEFINITION</b></span></p>
+  <span style="font-size:12px;"><b>DEFINITION</b></span></p>
 <pre style="margin-left: 40px; ">
-  <a href="#resultserialized">ResultSerialized</a> future_get_result_serialized(1:<a href="#future">Future</a> ff)&#10;    throws (1:<a href="#clientexception">ClientException</a> e),  &#10;</pre>
+  <a href="#resultserialized">ResultSerialized</a> future_get_result_serialized(1:<a href="#future">Future</a> ff, 2:i32 timeout_millis)&#10;    throws (1:<a href="#clientexception">ClientException</a> e),  &#10;</pre>
 <p style="margin-left: 40px; ">
-	<span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+  <span style="font-size:12px;"><b>PARAMETERS</b></span></p>
 <table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
-	<tbody>
-		<tr>
-			<td style="white-space: nowrap; text-align: right; ">
-				<em>ff</em> -</td>
-			<td>
-				Reference to future object</td>
-		</tr>
-	</tbody>
+  <tbody>
+    <tr>
+      <td style="white-space: nowrap; text-align: right; ">
+        <em>ff</em> -</td>
+      <td>
+        Reference to future object</td>
+      </tr>
+    <tr>
+      <td style="white-space: nowrap; text-align: right; ">
+        <em>timeout_millis</em> -</td>
+      <td>
+        If results have not arrived within this amount of time, throw an exception</td>
+      </tr>
+    </tbody>
 </table>
 <p style="margin-left: 40px; ">
-	<span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+  <span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
 <p style="margin-left: 40px; ">
-	<a href="#resultserialized">ResultSerialized</a> object for next completed asynchronous operation</p>
+  <a href="#resultserialized">ResultSerialized</a> object for next completed asynchronous operation</p>
 <hr />
 <h4>
 	<a name="future_has_outstanding"></a>future_has_outstanding</h4>
