@@ -75,6 +75,11 @@
     <li><a href="#future_is_empty">future_is_empty</a></li>
     <li><a href="#future_is_full">future_is_full</a></li>
   </ul>
+  <li><a href="#application_helper_apis">Application Helper APIs</a></li>
+  <ul>
+    <li><a href="#create_cell_unique">create_cell_unique</a></li>
+    <li><a href="#generate_guid">generate_guid</a></li>
+  </ul>
   <li><a href="#convenience_apis">Convenience APIs</a></li>
   <ul>
     <li><a href="#get_cell">get_cell</a></li>
@@ -1596,6 +1601,70 @@ void mutator_set_cells_as_arrays(1:<a href="#mutator">Mutator</a> mutator, 2:lis
 <hr />
 <p>
 	&nbsp;</p>
+<a name="application_helper_apis">
+<h2>Application Helper APIs</h2>
+<h4>
+  <a name="create_cell_unique"></a>create_cell_unique</h4>
+<p style="margin-left: 40px; ">
+  Inserts a unique cell into a table. &nbsp;This function is useful for generating unique identifiers such as usernames for a website. &nbsp;It requires that the column being update be created with the TIME_ORDER DESC and MAX_VERSIONS 1 options. &nbsp;You can supply the contents (value) of the cell or leave it blank and let the function generate unique content internally, the only requirement is that the value is globally unique.</p>
+<p style="margin-left: 40px; ">
+  This function can be used to create unique rows in a table. &nbsp;For example, you could create a Users table whose row key is the unique username for each user. &nbsp;The table could be craeted as follows.</p>
+<pre class="brush:plain;" style="margin-left: 40px;">
+create table Users (&#10;  id TIME_ORDER DESC MAX_VERSIONS 1&#10;  name,&#10;  image&#10;);&#10;</pre>
+<p style="margin-left: 40px; ">
+  Unique rows can be inserted by calling this function with the desired row key and column family <em>id</em> specified in the key parameter. &nbsp;If the row does not exist, the function will return successfully, otherwise an exception will be thrown.</p>
+<p style="margin-left: 40px; ">
+  <span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+string create_cell_unique(1:<a href="#namespace">Namespace</a> ns, 2:string table_name,&#10;                          3:<a href="#key">Key</a> key, 4:string value) throws (1:<a href="#clientexception">ClientException</a> e),&#10;</pre>
+<p style="margin-left: 40px; ">
+  <span style="font-size:12px;"><b>PARAMETERS</b></span></p>
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;margin-left: 40px; ">
+  <tbody>
+    <tr>
+      <td style="text-align: right; ">
+        <em>ns</em> -</td>
+      <td>
+        Namespace identifier of namespace containing table in which to create unique cell</td>
+      </tr>
+    <tr>
+      <td style="white-space: nowrap; text-align: right; ">
+        <em>table_name</em> -</td>
+      <td>
+        Name of table in which to create unique cell</td>
+      </tr>
+    <tr>
+      <td style="text-align: right; ">
+        <em>key</em> -</td>
+      <td>
+        Key of unique cell to create</td>
+      </tr>
+    <tr>
+      <td style="text-align: right; ">
+        <em>value</em> -</td>
+      <td>
+        Content of unique cell. Should be globally unique so that race conditions on create can be disambiguated. Can be empty in which case the function will internally generate a GUID to store as the value.</td>
+      </tr>
+    </tbody>
+</table>
+<p style="margin-left: 40px; ">
+  <span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+<p style="margin-left: 40px; ">
+  The cell value. &nbsp;If the cell already exists with a different value, a <a href="#clientexception">ClientException</a> is thrown</p>
+<hr />
+<h4>
+  <a name="generate_guid"></a>generate_guid</h4>
+<p style="margin-left: 40px; ">
+  Generates a <a href="http://en.wikipedia.org/wiki/Globally_unique_identifier">GUID</a> (Globally Unique ID). The generated string is 36 bytes long and has a format similar to &quot;9cf7da31-307a-4bef-b65e-19fb05aa57d8&quot;.</p>
+<p style="margin-left: 40px; ">
+  <span style="font-size:12px;"><b>DEFINITION</b></span></p>
+<pre style="margin-left: 40px; ">
+string generate_guid()&#10;</pre>
+<p style="margin-left: 40px; ">
+  <span style="font-size:12px;"><b>RETURN VALUE</b></span></p>
+<p style="margin-left: 40px; ">
+  The GUID</p>
+<hr />
 <a name="convenience_apis">
 <h2>Convenience APIs</h2>
 <h4>
